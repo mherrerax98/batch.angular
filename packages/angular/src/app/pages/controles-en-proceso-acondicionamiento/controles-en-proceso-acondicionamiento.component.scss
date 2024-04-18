@@ -1,0 +1,50 @@
+.view-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  ::ng-deep .dx-datagrid {
+    .dx-icon-check {
+      color: rgb(0, 255, 0);
+    }
+
+    .dx-icon-close {
+      color: red;
+    }
+
+    .dx-toolbar {
+      background-color: rgb(255, 255, 255);
+      padding: 5px 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+  }
+  }
+
+  .item {
+    margin-bottom: 8px;
+
+    ::ng-deep .dx-popup-wrapper {
+      .dx-button-content {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+
+    .mr-8 {
+      margin-right: 8px;
+    }
+  
+  }
+}

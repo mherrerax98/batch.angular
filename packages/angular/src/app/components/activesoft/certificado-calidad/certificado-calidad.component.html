@@ -1,0 +1,38 @@
+<div class="wrapper">
+  <div class="item">
+    <app-order-info-area 
+      [editable]="editable"
+      [idPlanta]="idPlanta"
+      [compro]="idCompro"
+      [numOrd]="numOrd"
+      [enableOperacion]="false"
+      ></app-order-info-area>
+  </div>
+  <div class="item">
+    <dx-data-grid 
+      [dataSource]="certificadoCalidadDataSource" 
+      [showBorders]="true"
+      [columnAutoWidth]="true"
+    >
+      <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
+
+      <dxi-column dataField="criterio" [allowEditing]="false"></dxi-column>
+      <dxi-column 
+        dataField="aprobo" 
+        [allowEditing]="true"
+        [calculateCellValue]="calculateDisplayValue"
+        >
+        <dxo-lookup [dataSource]="cumple"></dxo-lookup>
+      </dxi-column>
+      <dxi-column caption="Vo.Bo" cellTemplate="resultadoTemplate"></dxi-column>
+      <div *dxTemplate="let dt of 'resultadoTemplate'">
+        <div *ngIf="dt.data.aprobo == 'B' || dt.data.aprobo == 'Aprobado'"
+          ><i class="dx-icon-check"></i
+        ></div>
+        <div *ngIf="dt.data.aprobo == 'P' || dt.data.aprobo == 'Pendiente'">
+          <i class="dx-icon-close"></i>
+        </div>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

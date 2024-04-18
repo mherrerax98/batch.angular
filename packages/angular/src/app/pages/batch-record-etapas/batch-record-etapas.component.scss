@@ -1,0 +1,42 @@
+.view-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px;
+    height: 100%;
+    overflow-y: auto;
+    
+    .item {
+        margin-bottom: 8px;
+    }
+
+    .ok-button {
+        ::ng-deep .dx-button {
+            float: inline-end;
+            background-color: #2D307E;
+            color: white;
+        }
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    ::ng-deep .dx-datagrid {
+        .dx-datagrid-table {
+            white-space: break-spaces;
+        }
+
+        .dx-template-wrapper {
+            text-align: center;
+        }
+
+        .dx-button-content {
+            background-color: #2D307E;
+        }
+
+        .dx-button .dx-icon {
+            color: white;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.op-wrapper {
+    ::ng-deep .dx-datagrid {
+        .dx-datagrid-text-content {
+            white-space: break-spaces;
+        }
+
+        .dx-icon-check {
+            color: rgb(0, 255, 0);
+        }
+
+        .dx-icon-close {
+            color: red;
+        }
+
+        .act {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}

@@ -1,0 +1,85 @@
+<div class="view-wrapper">
+  <div class="title item"> Inspección de Producto Terminado </div>
+  <div class="item">
+    <app-order-info-area 
+      [editable]="editable"
+      [compro]="idCompro"
+      [idPlanta]="idPlanta"
+      [numOrd]="numOrd"
+      ></app-order-info-area>
+  </div>
+  <div class="item">
+    <dx-data-grid
+      [dataSource]="entregas"
+      width="100%"
+      [showBorders]="true"
+      height="400"
+      
+    >
+      <dxo-selection mode="single" showCheckBoxesMode="onClick">  
+      </dxo-selection>
+      <dxo-toolbar>
+        <dxi-item location="after">
+          <dx-button
+            text="Agregar"
+            icon="plus"
+            [stylingMode]="'contained'"
+            (onClick)="handleAgregarEntrega()"
+          ></dx-button>
+        </dxi-item>
+        <dxi-item location="after">
+          <dx-button
+            text="Ver"
+            icon="eyeopen"
+            [stylingMode]="'contained'"
+            (onClick)="handleVerButton()"
+          ></dx-button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column caption="N° Entrega" dataField="numero"></dxi-column>
+      <dxi-column caption="Realizado por" dataField="responsable"></dxi-column>
+      <dxi-column caption="Fecha" dataField="fecha"></dxi-column>
+    </dx-data-grid>
+  </div>
+
+  <div class="item ac-btn">
+    <dx-button
+      text="Guardar"
+      stylingMode="contained"
+      (onClick)="handleAceptarButton()"
+    ></dx-button>
+  </div>
+
+  <dx-popup title="Entrega" [(visible)]="enabled">
+    <dxi-toolbar-item toolbar="bottom" location="after" [visible]="habilitarBtns">
+      <div *dxTemplate>
+        <dx-button
+          text="Cancelar"
+          stylingMode="contained"
+          (onClick)="handleCancelarEntrega()"
+        ></dx-button>
+      </div>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item toolbar="bottom" location="after"  [visible]="habilitarBtns">
+      <div *dxTemplate>
+        <dx-button
+          text="Guardar"
+          stylingMode="contained"
+          (onClick)="handleGuardarEntrega()"
+        ></dx-button>
+      </div>
+    </dxi-toolbar-item>
+    
+    <dx-form
+      [(formData)]="productoTerminado"
+      [readOnly]="readOnly"
+      [showColonAfterLabel]="showColon"
+      [minColWidth]="minColWidth"
+      [colCount]="colCount"
+      [width]="width"
+      [labelMode]="'floating'"
+    >
+    </dx-form>
+  </dx-popup>
+</div>

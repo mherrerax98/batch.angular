@@ -1,0 +1,217 @@
+<div class="view-wrapper">
+  <div class="title item"> Controles en Proceso</div>
+  <div class="item">
+    <app-order-info-area
+      [editable]="editable"
+      [compro]="idCompro"
+      [numOrd]="numOrd"
+      [idPlanta]="idPlanta"
+      [operacion]="operacion"
+    ></app-order-info-area>
+  </div>
+  <div class="item wrapper">
+    <dx-toolbar>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Producto</div>
+          <div class="field-value">
+            <dx-text-box [text]="producto" [disabled]="true"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Medicion</div>
+          <div class="field-value">
+            <dx-drop-down-button
+              [dropDownOptions]="{ width: 230 }"
+              [items]="medicion"
+              [useSelectMode]="true"
+              width="150"
+            ></dx-drop-down-button>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Volumen(ml) / Peso(g)</div>
+          <div class="field-value">
+            <dx-text-box [(value)]="volumenPeso"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Densidad</div>
+          <div class="field-value">
+            <dx-text-box [(value)]="densidad"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+    </dx-toolbar>
+  </div>
+
+  <div class="wrapper mt-12">
+    <dx-toolbar>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Minimo</div>
+          <div class="field-value">
+            <dx-text-box [(value)]="minimo"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Maximo</div>
+          <div class="field-value">
+            <dx-text-box [(value)]="maximo"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Promedio</div>
+          <div class="field-value">
+            <dx-text-box [(value)]="promedio"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+    </dx-toolbar>
+  </div>
+  <div class="item">
+    <dx-data-grid
+      [dataSource]="envasadoDataSource"
+      keyExpr="__KEY__"
+      [showBorders]="true"
+      (onSaved)="handleSaved($event)"
+      #controlProcesoDataGrid
+    >
+      <dxo-toolbar>
+        <dxi-item location="after">
+          <dx-button
+            text="Agregar"
+            stylingMode="contained"
+            (onClick)="handleAgregarControl()"
+          ></dx-button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxo-editing
+        [allowDeleting]="true"
+        [allowUpdating]="true"
+        mode="row"
+      ></dxo-editing>
+
+      <dxi-column dataField="fecha" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="hora" [allowEditing]="false"></dxi-column>
+      <dxi-column
+        width="320"
+        dataField="realizadoPor"
+        [allowEditing]="true"
+        caption="Realizado Por"
+      >
+        <dxo-lookup
+          [dataSource]="operarios"
+          valueExpr="id"
+          [displayExpr]="displayExpr"
+          [allowClearing]="true"
+        ></dxo-lookup>
+      </dxi-column>
+      <dxi-column
+        dataField="resultado"
+        [allowEditing]="true"
+        dataType="number"
+      ></dxi-column>
+      <dxi-column
+        dataField="cumple"
+        caption="Vo.Bo"
+        cellTemplate="verificacionTemplate"
+        [allowEditing]="false"
+      ></dxi-column>
+
+      <div *dxTemplate="let dt of 'verificacionTemplate'">
+        <div *ngIf="dt.data.cumple == 'C'; else nCumple"
+          ><i class="dx-icon-check"></i
+        ></div>
+        <ng-template #nCumple><i class="dx-icon-close"></i></ng-template>
+      </div>
+    </dx-data-grid>
+  </div>
+  <div class="item toolbar-actions">
+    <dx-button
+      class="mr-12"
+      text="Entregar"
+      stylingMode="contained"
+      (onClick)="handleEntregaBtn()"
+    ></dx-button>
+    <dx-button text="Guardar" stylingMode="contained" icon="save"></dx-button>
+  </div>
+</div>
+
+<dx-popup [(visible)]="visibleEntrega" title="Entrega" width="500" height="500">
+  <dxi-toolbar-item toolbar="bottom" location="after">
+    <dx-button
+      class="mr-12"
+      text="Cancelar"
+      (onClick)="handleEntregarCancel()"
+    ></dx-button>
+    <dx-button text="Entregar" (onClick)="handleEntregarOk()"></dx-button>
+  </dxi-toolbar-item>
+  <dx-form [(formData)]="entregaDataSource[0]">
+    <dxi-item itemType="group" colCount="2">
+      <dxi-item
+        dataField="codigoEntrega"
+        editorType="dxDropDownButton"
+        [editorOptions]="editorCodigoEntregaOptions"
+      >
+        <dxo-label text="Quien Entrega(codigo)"></dxo-label>
+      </dxi-item>
+      <dxi-item
+        dataField="nombreEntrega"
+        editorType="dxTextBox"
+        [editorOptions]="editorEntregaOptions"
+      >
+        <dxo-label text="Nombre"></dxo-label>
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group" colCount="2">
+      <dxi-item
+        dataField="codigoRecibe"
+        editorType="dxDropDownButton"
+        [editorOptions]="editorCodigoRecibeOptions"
+      >
+        <dxo-label text="Quien Recibe(codigo)"></dxo-label>
+      </dxi-item>
+      <dxi-item
+        dataField="nombreRecibe"
+        editorType="dxTextBox"
+        [editorOptions]="editorNombreRecibeOptions"
+      >
+        <dxo-label text="Nombre"></dxo-label>
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group" colCount="2">
+      <dxi-item
+        dataField="procesoEntrega"
+        editorType="dxTextBox"
+        [editorOptions]="editorProcesoEntregaOptions"
+      >
+      </dxi-item>
+      <dxi-item
+        dataField="procesoRecibe"
+        editorType="dxDropDownButton"
+        [editorOptions]="editorRecibeOptions"
+      >
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group" colCount="1">
+      <dxi-item
+        dataField="cantidadEntrega"
+        editorType="dxTextBox"
+        [editorOptions]="editorCantidadEntregaOptions"
+      >
+      </dxi-item>
+    </dxi-item>
+  </dx-form>
+</dx-popup>

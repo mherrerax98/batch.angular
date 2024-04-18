@@ -1,0 +1,70 @@
+<div class="wrapper">
+    <dx-toolbar>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Producto</div>
+          <div class="field-value">
+            <dx-text-box [text]="producto" [disabled]="true"></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Medicion</div>
+          <div class="field-value">
+            <dx-drop-down-button
+              [dropDownOptions]="{ width: 230 }"
+              [items]="medicion"
+              [useSelectMode]="true"
+              width="150"
+            ></dx-drop-down-button>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Volumen(ml) / Peso(g)</div>
+          <div class="field-value">
+            <dx-text-box></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Densidad</div>
+          <div class="field-value">
+            <dx-text-box></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+    </dx-toolbar>
+  </div>
+  
+  <div class="wrapper mt-12">
+    <dx-toolbar>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Minimo</div>
+          <div class="field-value">
+            <dx-text-box></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Promedio</div>
+          <div class="field-value">
+            <dx-text-box></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item location="before">
+        <div class="fields">
+          <div class="field-label">Maximo</div>
+          <div class="field-value">
+            <dx-text-box></dx-text-box>
+          </div>
+        </div>
+      </dxi-item>
+    </dx-toolbar>
+  </div>

@@ -1,0 +1,183 @@
+<div class="view-wrapper">
+  <div class="title item">Ordenes Pendientes</div>
+  <div class="dg-item">
+    <dx-data-grid
+      [dataSource]="orders"
+      [showBorders]="true"
+      (onRowClick)="handleRowClick($event)"
+      height="600"
+      [focusedRowEnabled]="true"
+      keyExpr="numero"
+      [allowColumnResizing]="true"
+      columnResizingMode="widget"
+      [columnMinWidth]="100"
+    >
+      <dxo-load-panel [showPane]="false"></dxo-load-panel>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-sorting mode="multiple"></dxo-sorting>
+      <dxo-header-filter [visible]="true" [searchMode]="'contains'"></dxo-header-filter>
+      <dxo-column-chooser
+        [enabled]="true"
+        title="Ocultar Columna"
+        emptyPanelText=""
+      ></dxo-column-chooser>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="planta" caption="Planta"></dxi-column>
+      <dxi-column dataField="idCompro"></dxi-column>
+      <dxi-column dataField="numero" dataType="string"></dxi-column>
+      <dxi-column dataField="detall" caption="D.Orden"></dxi-column>
+      <dxi-column
+        dataField="fecElab"
+        caption="F.Elab"
+        dataType="date"
+        format="yyyy/MM/dd"
+      ></dxi-column>
+      <dxi-column
+        dataField="fecContab"
+        caption="F.Entrega"
+        dataType="date"
+        format="yyyy/MM/dd"
+      ></dxi-column>
+      <dxi-column
+        dataField="estado"
+        caption="E.Orden"
+        cellTemplate="textColorTemplate"
+      ></dxi-column>
+      <dxi-column
+        width="70"
+        dataField=""
+        caption="Estado"
+        cellTemplate="stateTemplate"
+      ></dxi-column>
+      <dxi-column
+        width="70"
+        caption="Ir"
+        cellTemplate="irTemplate"
+      ></dxi-column>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <div class="fields">
+            <div class="field-label">Planta</div>
+            <div class="field-value">
+              <app-planta-drop-down-box 
+                (onSelectionChanged)="handleOnSelectionChanged($event)"
+              ></app-planta-drop-down-box>
+            </div>
+          </div>
+        </dxi-item>
+        <dxi-item location="before">
+          <div class="fields">
+            <div class="field-label">Desde</div>
+            <dx-date-box
+              [value]="now"
+              [inputAttr]="{ 'aria-label': 'Set Birthday' }"
+              (onValueChanged)="handleValueChangedFechaInit($event)"
+              width="120"
+            ></dx-date-box>
+            <div class="field-value"> </div>
+          </div>
+        </dxi-item>
+        <dxi-item location="before">
+          <div class="fields">
+            <div class="field-label">Hasta</div>
+            <dx-date-box
+              type="date"
+              [value]="now"
+              [inputAttr]="{ 'aria-label': 'Date' }"
+              (onValueChanged)="handleValueChangedFechaFinal($event)"
+              width="120"
+            ></dx-date-box>
+            <div class="field-value"> </div>
+          </div>
+        </dxi-item>
+        <dxi-item location="after">
+          <dx-button
+            text="Buscar"
+            (onClick)="handleBuscarPorFecha()"
+          ></dx-button>
+        </dxi-item>
+        <dxi-item name="exportButton"></dxi-item>
+        <dxi-item location="after" locateInMenu="auto">
+          <div class="separator"></div>
+        </dxi-item>
+        <dxi-item name="columnChooserButton" locateInMenu="auto"></dxi-item>
+      </dxo-toolbar>
+
+      <div
+        [style.text-align.center]
+        *dxTemplate="let states of 'stateTemplate'"
+      >
+        <!--<div *ngIf="states.data.estado == 'terminado'">
+          <img src="./../../../assets/icons/check-button.png" alt="termindo" />
+        </div>
+        <div *ngIf="states.data.estado == 'pendiente'">
+          <img src="./../../../assets/icons/circle-yellow.png" />
+        </div>
+        <div *ngIf="states.data.estado == 'en proceso'">
+          <img src="./../../../assets/icons/minus-red.png" />
+        </div>-->
+        <div>
+          <img src="./../../../assets/icons/minus-red.png" />
+        </div>
+      </div>
+
+      <div [style.text-align.center] *dxTemplate="let data of 'irTemplate'">
+        <dx-button
+          class="ir-btn"
+          icon="arrowright"
+          stylingMode="contained"
+          (onClick)="handleClickBtn(data)"
+        ></dx-button>
+      </div>
+
+      <div *dxTemplate="let text of 'textColorTemplate'">
+        <app-text-con-color
+          [text]="text.data.estado"
+          color="#2d307E"
+        ></app-text-con-color>
+      </div>
+    </dx-data-grid>
+  </div>
+  <div class="item panel-info" [class.enable-info-panel]="enableInfoPanel">
+    <dx-toolbar>
+      <dxi-item location="before">
+        <span class="order-title">Detalles de la Orden</span>
+      </dxi-item>
+      <dxi-item location="after">
+        <dx-button
+          icon="close"
+          stylingMode="text"
+          (onClick)="handleEnablePanelInfo()"
+        ></dx-button>
+      </dxi-item>
+    </dx-toolbar>
+    <section class="section">
+      <article>
+        <div class="card-product">
+          <div class="field-set">
+            <div class="subtitle">Producto</div>
+            <span class="valor">{{ products?.nombre }}</span>
+          </div>
+          <div class="field-set">
+            <div class="subtitle">Codigo</div>
+            <span class="valor">{{ products?.idPrdPadre }}</span>
+          </div>
+          <div class="field-set">
+            <div class="subtitle">Lote</div>
+            <span class="valor">{{ products?.lote }}</span>
+          </div>
+          <div class="field-set">
+            <div class="subtitle">Cantidad</div>
+            <span class="valor">{{ products?.cantidad }}</span>
+          </div>
+          <div class="field-set">
+            <div class="subtitle">F.Exp</div>
+            <span class="valor">{{ products?.fecExpira }}</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>

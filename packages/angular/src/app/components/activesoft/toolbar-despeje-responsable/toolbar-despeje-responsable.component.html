@@ -1,0 +1,77 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Realizado por</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValueRecurso"
+            valueExpr="id"
+            [items]="operarios"
+            placeholder="Seleccione un operario"
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExpr"
+            [showClearButton]="true"
+            width="100%"
+            (onValueChanged)="handleValueChangedRealizado($event)"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="operarios"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumns"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValueRecurso"
+                keyExpr="id"
+                [columnAutoWidth]="true"
+                (onSelectionChanged)="handleSelectionRealizadoPor($event)"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Verificado por</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValue"
+            valueExpr="id"
+            [items]="operarios"
+            placeholder="Seleccione un operario"
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExpr"
+            [showClearButton]="true"
+            width="100%"
+            (onValueChanged)="handleValueChangedVerificado($event)"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="operarios"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumns"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValue"
+                keyExpr="id"
+                [columnAutoWidth]="true"
+                (onSelectionChanged)="handleSelectionVerificadoPor($event)"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,13 @@
+.view-wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 24px;
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: #2D307E;
+    }
+}

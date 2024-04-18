@@ -1,0 +1,192 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Producto</div>
+        <div class="field-value">
+          <dx-drop-down-button
+            [dataSource]="products"
+            keyExpr="id"
+            displayExpr="nombre"
+            [useSelectMode]="true"
+            width="100%"
+            (onSelectionChanged)="handleOnSelectionChangedProducto($event)"
+          ></dx-drop-down-button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Recurso</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValueRecurso"
+            valueExpr="idRecurso"
+            [items]="recursos"
+            placeholder="Seleccione un recurso..."
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            displayExpr="descripcion"
+            [showClearButton]="true"
+            width="100%"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="recursos"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="['idRecurso','descripcion']"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValueRecurso"
+                keyExpr="idRecurso"
+                width="auto"
+                (onSelectionChanged)="handleSelectionRow($event)"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Oper/Maq</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValue"
+            valueExpr="id"
+            [items]="dataSource"
+            placeholder="Seleccione Oper/Maq..."
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExpr"
+            [showClearButton]="true"
+            width="100%"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="dataSource"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumns"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValue"
+                keyExpr="id"
+                width="auto"
+                (onSelectionChanged)="handleSelectionOperMaq($event)"
+              >
+                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+    <div class="row" [style.margin-top]="'24px'" [style.margin-bottom]="'14px'">
+      <div class="col">
+        <dx-button text="Cancelar" stylingMode="contained" (onClick)="handleCancelRegister()"></dx-button>
+      </div>
+      <div class="col">
+        <dx-button text="Aceptar" stylingMode="contained" (onClick)="handleAddRegisterBtn()"></dx-button>
+      </div>
+    </div>
+  </div>
+
+  <!--<dx-toolbar>
+    <dxi-item location="before">
+      <div class="fields">
+        <div class="field-label">Prod</div>
+        <div class="field-value">
+          <dx-drop-down-button 
+            [dataSource]="products"
+            keyExpr="id"
+            displayExpr="nombre"
+            [useSelectMode]="true"
+            width="200"
+            ></dx-drop-down-button>
+        </div>
+      </div>
+    </dxi-item>
+    <dxi-item location="before">
+      <div class="fields">
+        <div class="field-label">Recurso</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValueRecurso"
+            valueExpr="idRecurso"
+            [items]="recursos"
+            placeholder="Seleccione un recurso..."
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            displayExpr="descripcion"
+            [showClearButton]="true"
+            
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="recursos"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="['descripcion']"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValueRecurso"
+                keyExpr="idRecurso"
+                width="auto"
+                (onSelectionChanged)="handleSelectionRow($event)"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </dxi-item>
+    <dxi-item location="before">
+      <div class="fields">
+        <div class="field-label">Oper/Maq</div>
+        <div class="field-value">
+          <dx-drop-down-box
+            [(value)]="gridBoxValue"
+            valueExpr="id"
+            [items]="dataSource"
+            placeholder="Seleccione Oper/Maq..."
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExpr"
+            [showClearButton]="true"
+            width="280"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="dataSource"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumns"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValue"
+                keyExpr="id"
+                width="auto"
+                (onSelectionChanged)="handleSelectionOperMaq($event)"
+              >
+                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </dxi-item>
+    
+    <dxi-item location="after">
+      <dx-button text="Agregar" stylingMode="contained" (onClick)="handleAddRegisterBtn()"></dx-button>
+    </dxi-item>
+  </dx-toolbar>-->
+</div>

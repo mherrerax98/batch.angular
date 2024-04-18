@@ -1,0 +1,135 @@
+.view-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px;
+  overflow: hidden;
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #2d307e;
+  }
+
+  .item {
+    flex-grow: 0;
+    margin-bottom: 8px;
+    ::ng-deep .dx-button {
+      float: inline-end;
+    }
+  }
+
+  ::ng-deep .dx-datagrid {
+    .dx-toolbar {
+      background-color: rgb(255, 255, 255);
+      padding: 5px 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .field-label {
+        padding-right: 8px;
+      }
+
+      .field-value {
+        padding-right: 8px;
+        color: black;
+      }
+    }
+
+    .dx-button-content {
+      justify-content: space-between;
+    }
+  }
+
+  .panel-info {
+    margin-top: 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 440px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05), 0 0 4px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    padding: 6px 24px;
+    display: none;
+    overflow-y: auto;
+
+    .title {
+      font-weight: bold;
+      font-size: 15px;
+      margin: 8px 0px;
+      letter-spacing: normal;
+    }
+  }
+
+  .enable-info-panel {
+    display: block;
+  }
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 13px;
+  font-family: Roboto, RobotoFallback, Noto Kufi Arabic, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.2857;
+}
+
+.valor {
+  font-weight: 400;
+  font-size: 13px;
+  font-family: Roboto, RobotoFallback, Noto Kufi Arabic, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.2857;
+  margin-left: 8px;
+}
+
+.field-set {
+  display: flex;
+  flex-direction: row;
+  margin: 8px 0px;
+  justify-content: space-between;
+}
+
+.card-product {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: #2d307e !important;
+  color: white;
+  border-radius: 12px;
+}
+
+::ng-deep .dx-accordion-item {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px #0003;
+  transition: margin 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: margin, height;
+  border-top: 1px solid #e0e0e0;
+}
+
+::ng-deep .dx-accordion-item-title {
+  min-height: 40px;
+  padding: 6px 11px;
+  background-color: #fff;
+}
+
+.order-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #2d307e;
+}
+
+.ir-btn {
+  background-color: #2D307E;
+  ::ng-deep .dx-icon {
+    color: white;
+  }
+}

@@ -1,0 +1,31 @@
+<div class="view-wrapper">
+  <div class="title item">Definiciones Despeje de Linea</div>
+  <dx-data-grid
+    [dataSource]="despejeLista"
+    width="100%"
+    [showBorders]="true"
+    [showColumnHeaders]="true"
+    [columnMinWidth]="80"
+    [columnAutoWidth]="true"
+  >
+    <dxo-editing
+      [allowAdding]="true"
+      [selectTextOnEditStart]="true"
+      [startEditAction]="'click'"
+      mode="batch"
+    ></dxo-editing>
+
+    <dxi-column
+      caption="Descripción"
+      dataField="descripcion"
+      [allowEditing]="true"
+    ></dxi-column>
+    <dxi-column
+      caption="Tipo"
+      dataField="idTipoDespeje"
+      [allowEditing]="true"
+    >
+        <dxo-lookup [dataSource]="tipoDespejes" valueExpr="id" displayExpr="tipo"></dxo-lookup>
+    </dxi-column>
+  </dx-data-grid>
+</div>

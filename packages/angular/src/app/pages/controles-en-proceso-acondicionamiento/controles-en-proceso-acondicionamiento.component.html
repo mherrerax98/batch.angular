@@ -1,0 +1,96 @@
+<div class="view-wrapper">
+  <div class="title item"> Controles en Proceso</div>
+  <div class="item">
+    <app-order-info-area [editable]="editable"></app-order-info-area>
+  </div>
+  <div class="item">
+    <dx-data-grid
+      [dataSource]="acondicionamientoDataSource"
+      [showBorders]="true"
+    >
+      <dxo-toolbar>
+        <dxi-item location="after">
+          <dx-button
+            text="Agregar"
+            icon="plus"
+            stylingMode="contained"
+            (onClick)="handleAgregarControl()"
+          ></dx-button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column dataField="fecha"></dxi-column>
+      <dxi-column dataField="hora"></dxi-column>
+      <dxi-column dataField="codigoOp"></dxi-column>
+      <dxi-column dataField="realizadoPor"></dxi-column>
+      <dxi-column dataField="proceso"></dxi-column>
+      <dxi-column dataField="estado"></dxi-column>
+      <dxi-column
+        dataField="verificacion"
+        cellTemplate="verificacionTemplate"
+      ></dxi-column>
+
+      <div *dxTemplate="let verificacion of 'verificacionTemplate'">
+        <div *ngIf="verificacion.data.verificacion == 'C'; else nCumple"
+          ><i class="dx-icon-check"></i
+        ></div>
+        <ng-template #nCumple><i class="dx-icon-close"></i></ng-template>
+      </div>
+    </dx-data-grid>
+
+    <dx-popup
+      [(visible)]="enabledForm"
+      title="Resultado"
+      width="520"
+      height="auto"
+    >
+      <dxi-toolbar-item toolbar="bottom" location="after">
+        <dx-button
+          text="Guardar"
+          stylingMode="contained"
+          (onClick)="handleGuardarBtn()"
+        ></dx-button>
+      </dxi-toolbar-item>
+
+      <dx-form [(formData)]="defaultFormDataSource[0]">
+        <dxi-item itemType="group" colCount="1">
+          <dxi-item
+            dataField="proceso"
+            editorType="dxDropDownButton"
+            [editorOptions]="editorOptionsProceso"
+          ></dxi-item>
+          <dxi-item
+            dataField="valor"
+            editorType="dxDropDownButton"
+            [editorOptions]="editorOptionsVerificacion"
+          >
+          </dxi-item>
+        </dxi-item>
+      </dx-form>
+    </dx-popup>
+  </div>
+  <div class="item actions">
+    <dx-button
+      class="mr-8"
+      text="Recibir"
+      [stylingMode]="'contained'"
+      (onClick)="handleRecibirBtn()"
+    ></dx-button>
+    <dx-button text="Aceptar" [stylingMode]="'contained'"></dx-button>
+  </div>
+</div>
+
+<dx-popup [(visible)]="visibleRecibido" width="350" height="auto">
+  <dxi-toolbar-item toolbar="bottom" location="after">
+    <dx-button text="aceptar" stylingMode="contained" (onClick)="handleAceptarRecibido()"></dx-button>
+  </dxi-toolbar-item>
+  <dx-form [(formData)]="recibidoDS[0]">
+    <dxi-item itemType="group" colCount="1">
+      <dxi-item
+        dataField="cantidadRecibida"
+        editorType="dxTextBox"
+        [editorOptions]="editorCantidadRecibidaOpts"
+      ></dxi-item>
+    </dxi-item>
+  </dx-form>
+</dx-popup>

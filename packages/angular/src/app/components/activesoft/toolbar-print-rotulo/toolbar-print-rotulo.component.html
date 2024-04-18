@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <dx-toolbar>
+        <dxi-item location="after">
+            <div class="as-field">
+                <div class="as-field-label">Pesado por</div>
+                <div class="as-field-value">
+                  <dx-drop-down-button
+                    [dropDownOptions]="{ width: 230 }"
+                    [items]="operario"
+                    [useSelectMode]="true"
+                  ></dx-drop-down-button>
+                </div>
+              </div>
+        </dxi-item>
+        <dxi-item location="after">
+            <div class="as-field">
+                <div class="as-field-label">Verificado por</div>
+                <div class="as-field-value">
+                  <dx-drop-down-button
+                    [dropDownOptions]="{ width: 230 }"
+                    [items]="auditor"
+                    [useSelectMode]="true"
+                  ></dx-drop-down-button>
+                </div>
+              </div>
+        </dxi-item>
+    </dx-toolbar>
+</div>

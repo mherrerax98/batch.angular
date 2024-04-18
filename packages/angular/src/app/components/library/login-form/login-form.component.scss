@@ -1,0 +1,25 @@
+@use "../../../../variables.scss" as *;
+
+.login-wrapper {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+  padding: 24px;
+}
+
+.login-form {
+  ::ng-deep .form-text {
+    color: var(--base-text-color-alpha);
+  }
+}
+
+.reset-link {
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  margin: 6px 0 50px 0;
+
+  a {
+    cursor: pointer;
+  }
+}

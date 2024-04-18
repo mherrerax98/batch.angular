@@ -1,0 +1,26 @@
+<div class="view-wrapper">
+  <div class="item title">Ruta de Produccion</div>
+  <div class="item">
+    <app-order-info-area 
+      [editable]="true" 
+      [enableOperacion]="false"
+      (onSelectionChanged)="handleOnSelectionChanged($event)"
+      (onSelectionChangedComOrd)="handleOnSelectionChangedComOrd($event)"
+      (onValueChangedComOrd)="handleOnValueChangedComOrd($event)"
+      ></app-order-info-area>
+  </div>
+  <div class="item">
+    <app-operacion-proceso 
+      [planta]="planta" 
+      [orden]="orden"
+    ></app-operacion-proceso>
+  </div>
+  <div class="item">
+    <dx-button
+      class="ac-btn"
+      text="Aceptar"
+      stylingMode="contained"
+      (onClick)="handleAceptarButton()"
+    ></dx-button>
+  </div>
+</div>

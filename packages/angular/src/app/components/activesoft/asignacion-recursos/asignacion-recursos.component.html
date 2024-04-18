@@ -1,0 +1,81 @@
+<div class="ar-view-wrapper">
+  <dx-data-grid 
+      [dataSource]="asignacionRecursos" 
+      width="100%" 
+      noDataText="" 
+      height="220"
+      [showBorders]="true"
+    >
+    <dxo-sorting mode="single"></dxo-sorting>
+
+    <dxi-column
+      [minWidth]="100"
+      dataField="idOperac"
+      caption="Codigo Op"
+    >
+    </dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="operario.name"
+      [allowEditing]="false"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="fechaIni"
+      [allowEditing]="false"
+      sortOrder="asc"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="horaIni"
+      [allowEditing]="false"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="fechaFin"
+      [allowEditing]="true"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="horaFin"
+      [allowEditing]="true"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      dataField="horasTotal"
+    ></dxi-column>
+    <dxi-column
+      [minWidth]="100"
+      caption="Accion"
+      cellTemplate="accionTemplate"
+    ></dxi-column>
+
+    <div [style.text-align]="'center'" *dxTemplate="let data of 'accionTemplate'">
+      <dx-button icon="./../../../../assets/icons/pause.png" (onClick)="handlePausedBtn(data)"></dx-button>
+    </div>
+  </dx-data-grid>
+</div>
+
+<div class="tb-view-wrapper">
+  <dx-toolbar>
+      <dxi-item location="after">
+          <dx-button text="Iniciar" icon="./../../../../assets/icons/play.png"></dx-button>
+      </dxi-item>
+      <dxi-item location="after">
+          <dx-button text="Detener" icon="./../../../../assets/icons/pause.png"></dx-button>
+      </dxi-item>
+      <dxi-item location="after">
+          <dx-button text="terminar" icon="./../../../../assets/icons/finish-flag.png"></dx-button>
+      </dxi-item>
+  </dx-toolbar>
+</div>
+
+
+<div class="item aceptar-button">
+  <dx-button 
+  text="Aceptar" 
+  stylingMode="contained"
+  (onClick)="handleAceptarBtn()"
+  ></dx-button>
+</div>
+

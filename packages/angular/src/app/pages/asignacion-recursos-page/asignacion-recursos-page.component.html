@@ -1,0 +1,159 @@
+<div class="view-wrapper">
+  <div class="item title"> Transaccion de Recursos </div>
+  <div class="item">
+    <app-order-info-area
+      [editable]="editable"
+      [operacion]="operacion"
+      [idPlanta]="idPlanta"
+      [compro]="idCompro"
+      [numOrd]="numOrd"
+      (onSelectionChangedComOrd)="handleOnSelectionChangedComOrd($event)"
+      (onSelectionChangedOperacion)="handleOnSelectionChangedOperacion($event)"
+      (onSelectionChanged)="handleOnSelectionChanged($event)"
+    ></app-order-info-area>
+  </div>
+  <div [style.height]="'100%'">
+    <div class="ar-view-wrapper">
+      <dx-data-grid
+        [dataSource]="asignacionRecursos"
+        width="100%"
+        noDataText=""
+        height="100%"
+        [showBorders]="true"
+      >
+        <dxo-sorting mode="single"></dxo-sorting>
+        <dxo-editing [allowDeleting]="true" [allowUpdating]="true">
+          <dxo-texts
+            [confirmDeleteMessage]="'¿Está seguro de eliminar el registro?'"
+          ></dxo-texts>
+        </dxo-editing>
+        <dxo-toolbar>
+          <dxi-item location="before">
+            <dx-button
+              class="agregar"
+              text="Agregar"
+              icon="plus"
+              (onClick)="handleAdicionarRegistro()"
+            ></dx-button>
+          </dxi-item>
+          <dxi-item location="before">
+            <dx-button
+              text="Iniciar"
+              icon="video"
+              (onClick)="handleIniciarBtn()"
+            ></dx-button>
+          </dxi-item>
+          <dxi-item location="before">
+            <dx-button
+              text="Detener"
+              icon="./../../../../assets/icons/pause.png"
+              (onClick)="handleDetenerTodoBtn()"
+            ></dx-button>
+          </dxi-item>
+          <dxi-item location="before">
+            <dx-button
+              text="terminar"
+              icon="runner"
+              (onClick)="handleTerminarProcesoBtn()"
+            ></dx-button>
+          </dxi-item>
+          <dxi-item location="after">
+            <dx-button
+              text="Guardar"
+              stylingMode="contained"
+              (onClick)="handleAceptarBtn()"
+            ></dx-button>
+          </dxi-item>
+        </dxo-toolbar>
+
+        <dxi-column
+          [minWidth]="100"
+          dataField="idOperac"
+          caption="Codigo Op"
+          [allowEditing]="false"
+        >
+        </dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          [caption]="operMaqName"
+          dataField="operario.name"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          dataField="fechaIni"
+          [allowEditing]="true"
+          sortOrder="asc"
+          dataType="date"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          dataField="horaIni"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          dataField="fechaFin"
+          [allowEditing]="true"
+          dataType="date"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          dataField="horaFin"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          dataField="horasTotal"
+          [allowEditing]="false"
+          dataType="number"
+        ></dxi-column>
+        <dxi-column
+          [minWidth]="100"
+          caption="Accion"
+          cellTemplate="accionTemplate"
+        ></dxi-column>
+
+        <div
+          [style.text-align]="'center'"
+          *dxTemplate="let data of 'accionTemplate'"
+        >
+          <dx-button
+            [style.margin-right]="'8px'"
+            icon="./../../../../assets/icons/pause.png"
+            (onClick)="handlePauseBtn(data)"
+          ></dx-button>
+          <!--<dx-button
+            icon="./../../../../assets/icons/bin.png"
+            (onClick)="handleDeleteTransaccion(data)"
+          ></dx-button>-->
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+  <dx-toast
+    [(visible)]="isVisible"
+    [type]="'info'"
+    [message]="alertMessage"
+    [displayTime]="5000"
+    [closeOnClick]="true"
+    [position]="position"
+  ></dx-toast>
+  <app-alert
+    [visible]="alert"
+    text="Esta seguro de terminar el proceso"
+    (onClick)="handleClickAlert($event)"
+  ></app-alert>
+
+  <dx-popup [(visible)]="addRegister" [dragEnabled]="false" height="auto">
+    <app-form-asignacion-recursos
+      [compro]="idCompro"
+      [numero]="numOrd"
+      (onAddRegister)="handleAddRegister($event)"
+      (onCalcelRegister)="handleCancelRegister($event)"
+      [operacion]="idOperacion"
+      (onSelectedProduct)="handleOnSelectedProduct($event)"
+      (onSelectedRecurso)="handleOnSelectedRecurso($event)"
+    ></app-form-asignacion-recursos>
+  </dx-popup>
+</div>

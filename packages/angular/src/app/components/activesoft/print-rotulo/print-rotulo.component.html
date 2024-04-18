@@ -1,0 +1,55 @@
+<dx-data-grid
+  [dataSource]="materiaPrima"
+  [showBorders]="true"
+  (onRowClick)="handleRowClick($event)"
+  [allowColumnResizing]="true"
+  columnResizingMode="nextColumn"
+>
+  <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
+  <dxo-selection mode="single"></dxo-selection>
+
+  <dxo-toolbar>
+    <dxi-item location="after">
+      <dx-button text="Copiar" icon="copy" (onClick)="handleOnClickCopy()"></dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="idProduc" caption="Codigo" [allowEditing]="false"></dxi-column>
+  <dxi-column dataField="nombreProduct" caption="Materia" [allowEditing]="false"></dxi-column>
+  <dxi-column
+    dataField="unidad"
+    caption="Und"
+    [calculateCellValue]="calculateCellValue"
+    [allowEditing]="false"
+    width="80"
+  ></dxi-column>
+  <dxi-column dataField="lote" [allowEditing]="false"></dxi-column>
+  <dxi-column
+    dataField="vence"
+    caption="Vence"
+    dataType="date"
+    format="yyyy/MM/dd"
+    [allowEditing]="false"
+  ></dxi-column>
+  <dxi-column
+    dataField="pesoNeto"
+    caption="P.Neto"
+    [allowEditing]="true"
+    dataType="number"
+  ></dxi-column>
+  <dxi-column
+    dataField="pesoTara"
+    caption="P.Tara"
+    [allowEditing]="true"
+    dataType="number"
+  ></dxi-column>
+  <dxi-column
+    dataField="N°Rpt"
+    caption="N.Rec"
+    [allowEditing]="true"
+    dataType="number"
+    width="85"
+  ></dxi-column>
+</dx-data-grid>
+
+<dx-button class="btn" text="Imprimir" icon="print"></dx-button>

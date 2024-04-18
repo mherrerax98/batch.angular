@@ -1,0 +1,22 @@
+<div class="certificado-calidad-wrapper">
+    <div class="title item">
+        Certificado de Calidad
+    </div>
+    <div class="item grid">
+        <app-certificado-calidad 
+            [editable]="editable"
+            [idCompro]="idCompro"
+            [idPlanta]="idPlanta"
+            [numOrd]="numOrd"
+            >
+        </app-certificado-calidad>
+    </div>
+    <div class="ok-button">
+        <dx-button 
+            text="Guardar" 
+            stylingMode="contained" 
+            type="success"
+            (onClick)="handleAceptarButton()"
+        ></dx-button>
+    </div>
+</div>

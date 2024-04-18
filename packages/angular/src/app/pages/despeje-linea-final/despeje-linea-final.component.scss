@@ -1,0 +1,16 @@
+.dlf-view-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100%;
+
+    .item {
+        margin-bottom: 4px;
+    }
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2D307E;
+        letter-spacing: 1px;
+    }
+}

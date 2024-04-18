@@ -1,0 +1,18 @@
+<div class="alert">
+  <dx-popup
+    [(visible)]="visible"
+    height="auto"
+    width="auto"
+    [showCloseButton]="false"
+    
+  >
+    <p>{{ text }}</p>
+
+    <dxi-toolbar-item toolbar="bottom" location="after">
+      <dx-button text="Cancelar" (onClick)="handleCancelarBtn()"></dx-button>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item toolbar="bottom" location="after">
+      <dx-button text="Aceptar" (onClick)="handleAceptarBtn()"></dx-button>
+    </dxi-toolbar-item>
+  </dx-popup>
+</div>

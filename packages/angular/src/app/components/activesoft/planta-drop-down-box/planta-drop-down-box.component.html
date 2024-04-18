@@ -1,0 +1,31 @@
+<dx-drop-down-box
+  [(value)]="gridBoxValue"
+  valueExpr="id"
+  [items]="plantas"
+  [placeholder]="placeholder"
+  [inputAttr]="{ 'aria-label': 'Owner' }"
+  [displayExpr]="displayExpr"
+  [showClearButton]="true"
+  width="280"
+  [disabled]="disabled"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-data-grid
+      [dataSource]="plantas"
+      [hoverStateEnabled]="true"
+      [showBorders]="true"
+      [columns]="gridColumns"
+      height="100%"
+      [(selectedRowKeys)]="gridBoxValue"
+      keyExpr="id"
+      [columnAutoWidth]="true"
+      columnResizingMode="widget"
+      (onSelectionChanged)="handleOnSelectionChanged($event)"
+    >
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+    </dx-data-grid>
+  </div>
+</dx-drop-down-box>

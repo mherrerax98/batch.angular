@@ -1,0 +1,102 @@
+.view-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+
+  ::ng-deep .dx-datagrid {
+    .dx-icon-check {
+      color: rgb(0, 255, 0);
+    }
+
+    .dx-icon-close {
+      color: red;
+    }
+
+    ::ng-deep .dx-datagrid-header-panel .dx-toolbar {
+      background-color: rgb(255, 255, 255);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+      width: 100%;
+      padding: 5px 5px;
+
+      ::ng-deep .dx-button {
+        background-color: #2d307e;
+        color: white;
+      }
+    }
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2d307e;
+    letter-spacing: 1px;
+  }
+
+  .item {
+    margin-bottom: 8px;
+
+    .mr-12 {
+      margin-right: 12px;
+    }
+  }
+
+  .wrapper {
+    margin-top: 8px;
+    margin-bottom: 8px;
+
+    ::ng-deep .dx-toolbar {
+      background-color: rgb(255, 255, 255);
+      padding: 5px 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+
+      .fields {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .field-label {
+          padding-right: 8px;
+        }
+
+        .field-value {
+          padding-right: 8px;
+          color: black;
+        }
+      }
+
+      .dx-button-content {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .mt-12 {
+    margin-top: 12px;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+
+    ::ng-deep .dx-button {
+      float: inline-end;
+      background-color: #2d307e;
+      color: white;
+    }
+
+    ::ng-deep .dx-button-has-icon.dx-button-has-text .dx-icon {
+      color: white;
+    }
+  }
+}
+
+.mr-12 {
+  margin-right: 12px;
+}

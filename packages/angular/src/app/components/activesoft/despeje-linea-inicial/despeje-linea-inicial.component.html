@@ -1,0 +1,71 @@
+<div class="dli-view-wrapper">
+  <div class="item">
+    <app-order-info-area
+      [editable]="!editable"
+      [compro]="idCompro"
+      [idPlanta]="idPlanta"
+      [numOrd]="numOrd"
+      [enableOperacion]="enableOP"
+      [operacion]="operacion"
+      (onSelectionChangedOperacion)="handleOnSelectionChangedOperacion($event)"
+    ></app-order-info-area>
+  </div>
+  <div class="item">
+    <app-toolbar-despeje-responsable
+      (onSelectedItems)="handleSelectedOperarios($event)"
+      (onValueChangedVerificadoPor)="handleOnValueChangedVerificadoPor($event)"
+      (onValueChangedRealizadoPor)="handleOnValueChangedRealizadoPor($event)"
+    ></app-toolbar-despeje-responsable>
+  </div>
+
+  <dx-data-grid [dataSource]="datasource" [showBorders]="true">
+    <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
+
+    <dxi-column
+      dataField="descripcion"
+      [allowEditing]="false"
+      [width]="'70%'"
+      caption="Descripción"
+    ></dxi-column>
+    <!--cellTemplate="optionsTemplate"-->
+    <dxi-column
+      dataField="valorDefecto"
+      [allowEditing]="true"
+      [width]="'15%'"
+      caption="Valor"
+    >
+      <dxo-lookup [dataSource]="[' ', 'NO', 'SI']"></dxo-lookup>
+    </dxi-column>
+    <dxi-column
+      dataField="resultado"
+      cellTemplate="resultadoTemplate"
+      [allowEditing]="false"
+      [width]="'15%'"
+      caption="Resultado"
+    ></dxi-column>
+
+    <div *dxTemplate="let dt of 'resultadoTemplate'">
+      <div *ngIf="dt.data.resultado == true"><i class="dx-icon-check"></i></div>
+      <div *ngIf="dt.data.resultado == false">
+        <i class="dx-icon-close"></i>
+      </div>
+      <div *ngIf="dt.data.resultado == undefined"> </div>
+    </div>
+    <!--<div *dxTemplate="let options of 'optionsTemplate'">
+      <dx-drop-down-button [useSelectMode]="true" width="100%" [dataSource]="['SÍ','NO']"></dx-drop-down-button>
+    </div>-->
+  </dx-data-grid>
+  <div class="item actions-toolbar">
+    <dx-button
+      class="button"
+      text="Guardar"
+      stylingMode="contained"
+      (onClick)="handleSaveRecord()"
+    ></dx-button>
+  </div>
+  <app-alert
+    [visible]="alert"
+    [text]="alertaText"
+    (onClick)="handleClickAlert()"
+  ></app-alert>
+</div>

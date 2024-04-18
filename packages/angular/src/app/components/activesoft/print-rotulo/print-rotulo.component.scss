@@ -1,0 +1,22 @@
+::ng-deep .dx-datagrid .dx-datagrid-header-panel .dx-toolbar  {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+  width: 100%;
+  padding: 5px 5px;
+}
+
+
+::ng-deep .dx-button-has-icon.dx-button-has-text .dx-button-content {
+    background-color: #2D307E;
+    color: white;
+}
+
+::ng-deep .dx-button-has-icon.dx-button-has-text .dx-icon {
+    color: white;
+}
+
+.btn {
+    margin: 18px 0px;
+    float:inline-end;
+}

@@ -1,0 +1,57 @@
+<div class="view-wrapper">
+  <div class="item title">
+    Portada
+  </div>
+  <div class="item">
+    <app-order-info-area 
+      [editable]="editable"
+      [numOrd]="numOrd"
+      [idPlanta]="idPlanta"
+      [compro]="idCompro"
+      [enableOperacion]="false"
+    ></app-order-info-area>
+  </div>
+  <div class="item">
+    <dx-data-grid 
+      [dataSource]="batchRecordDataSource"
+      [showBorders]="true"
+      >
+      <dxi-column dataField="documentos"></dxi-column>
+      <dxi-column dataField="encargado"></dxi-column>
+      <dxi-column dataField="estado" cellTemplate="estadoTemplate" width="120">
+      </dxi-column>
+      <dxi-column dataField="codigo"></dxi-column>
+      <dxi-column dataField="responsable"></dxi-column>
+      <dxi-column 
+          dataField="actions"
+          cellTemplate="actionsTemplate"
+          caption="Acciones"
+      ></dxi-column>
+  
+      <div *dxTemplate="let action of 'actionsTemplate'">
+          <dx-button
+              icon="arrowright"
+              (onClick)="handleOnClick($event,action)"
+        ></dx-button>
+      </div>
+      <div *dxTemplate="let estados of 'estadoTemplate'">
+        <div *ngIf="estados.data.estado == 'terminado'">
+          <img src="./../../../assets/icons/check-button.png" alt="terminado">
+        </div>
+        <div *ngIf="estados.data.estado == 'en proceso'">
+          <img src="./../../../assets/icons/circle-yellow.png" alt="pendiente">
+        </div>
+        <div *ngIf="estados.data.estado == 'pendiente'">
+          <img src="./../../../assets/icons/minus-red.png" alt="en proceso">
+        </div>
+      </div>
+    </dx-data-grid>
+  </div>
+  <div class="item ok-button">
+    <dx-button 
+      text="Aceptar" 
+      stylingMode="contained" 
+      (onClick)="handleAceptarButton()"
+      ></dx-button>
+  </div>
+</div>

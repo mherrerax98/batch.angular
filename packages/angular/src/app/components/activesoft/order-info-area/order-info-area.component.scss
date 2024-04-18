@@ -1,0 +1,48 @@
+.view-wrapper {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+  width: 100%;
+  padding: 5px 5px;
+
+  .container {
+    width: 100%;
+    padding: 8px 5px;
+
+    .row{
+      display: flex;
+      flex-direction: row;
+
+      .fields {
+        display: flex;
+        flex-direction: column;
+
+        .field-label {
+          padding-right: 8px;
+        }
+    
+        .field-value {
+          padding-right: 8px;
+          color: black;
+        }
+      }
+
+      ::ng-deep .dx-button-content {
+        justify-content: flex-end;
+      }
+
+      ::ng-deep .dx-button-has-text .dx-button-content .dx-button-text {
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+
+  .dx-button-content {
+    justify-content: space-between;
+  }
+
+  .d-none {
+    display: none;
+  }
+}

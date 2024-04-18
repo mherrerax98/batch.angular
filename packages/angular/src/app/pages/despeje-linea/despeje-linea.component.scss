@@ -1,0 +1,28 @@
+.dl-view-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100%;
+    justify-content: space-between;
+    overflow-y: auto;
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2D307E;
+        letter-spacing: 1px;
+    }
+
+    .item{
+        margin-bottom: 4px;
+        flex-grow: 1;
+    }
+
+    .ok-button {
+        ::ng-deep .dx-button {
+            float: inline-end;
+            background-color: #2D307E;
+        }
+    }
+    
+}

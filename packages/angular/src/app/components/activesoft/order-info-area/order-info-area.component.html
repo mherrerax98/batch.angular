@@ -1,0 +1,45 @@
+<div class="view-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="fields">
+        <div class="field-label">Planta</div>
+        <div class="field-value">
+          <app-planta-drop-down-box 
+            (onSelectionChanged)="handleOnSelectionChanged($event)"
+            [placeholder]="placeholderPlanta"
+            [disabled]="!editable"
+            ></app-planta-drop-down-box>
+        </div>
+      </div>
+      <div class="fields">
+        <div class="field-label">Comprobante/Orden</div>
+        <div class="field-value">
+          <app-comord-drop-down-box
+            [fechaInicial]="fechaInicial"
+            [fechaFinal]="fechaFinal"
+            [planta]="planta"
+            [placeholder]="placeholderComOrd"
+            [disbled]="!editable"
+            (onSelectionChanged)="handleOnSelectionChangedComOrd($event)"
+            (onValueChanged)="handleOnValueChangedComOrd($event)"
+          ></app-comord-drop-down-box>
+        </div>
+      </div>
+      <div [class]="enableOperacion ? 'fields': 'd-none'">
+        <div class="field-label">Operacion</div>
+        <div class="field-value">
+          <dx-drop-down-button
+            [items]="operaciones"
+            width="200"
+            [useSelectMode]="true"
+            [disabled]="operacion ? true: false"
+            [text]="operacion"
+            keyExpr="idOperacion"
+            [displayExpr]="'nombre'"
+            (onSelectionChanged)="handleOnSelectionChangedOperacion($event)"
+          ></dx-drop-down-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

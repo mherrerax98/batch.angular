@@ -1,0 +1,11 @@
+.wrapper {
+  .as-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .as-field-label {
+      padding-right: 8px;
+    }
+  }
+}

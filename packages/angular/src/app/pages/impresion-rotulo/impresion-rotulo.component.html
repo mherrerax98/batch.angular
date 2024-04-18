@@ -1,0 +1,22 @@
+<div class="view-wrapper">
+  <div class="title">Rotulos</div>
+  <div class="container">
+    <div class="item">
+      <app-order-info-area 
+        [editable]="editable"
+        [enableOperacion]="false"
+        [compro]="idCompro"
+        [idPlanta]="idPlanta"
+        [numOrd]="numOrd"
+        ></app-order-info-area>
+    </div>
+    <div class="item">
+      <app-toolbar-despeje-responsable
+        (onSelectedItems)="handleSelectedOperarios($event)"
+      ></app-toolbar-despeje-responsable>
+    </div>
+    <div class="item">
+      <app-print-rotulo></app-print-rotulo>
+    </div>
+  </div>
+</div>
