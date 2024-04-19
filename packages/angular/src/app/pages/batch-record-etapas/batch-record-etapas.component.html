@@ -36,13 +36,13 @@
       </div>
       <div *dxTemplate="let estados of 'estadoTemplate'">
         <div *ngIf="estados.data.estado == 'terminado'">
-          <img src="/assets/icons/check-button.png" alt="terminado">
+          <img src="./assets/icons/check-button.png" alt="terminado">
         </div>
         <div *ngIf="estados.data.estado == 'en proceso'">
-          <img src="/assets/icons/circle-yellow.png" alt="pendiente">
+          <img src="./assets/icons/circle-yellow.png" alt="pendiente">
         </div>
         <div *ngIf="estados.data.estado == 'pendiente'">
-          <img src="/assets/icons/minus-red.png" alt="en proceso">
+          <img src="./assets/icons/minus-red.png" alt="en proceso">
         </div>
       </div>
     </dx-data-grid>

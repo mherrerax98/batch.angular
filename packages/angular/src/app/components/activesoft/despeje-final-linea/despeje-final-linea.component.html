@@ -41,11 +41,25 @@
     ></dxi-column>
 
     <div *dxTemplate="let dt of 'resultadoTemplate'">
-      <div *ngIf="dt.data.resultado == true; else none"
-        ><i class="dx-icon-check"></i
-      ></div>
-      <ng-template #none><i class="dx-icon-close"></i></ng-template>
-    </div>
+      <div *ngIf="dt.data.valorDefecto != undefined">
+        <div *ngIf="![8].includes(dt.data.id); else noInclude">
+            <div *ngIf="dt.data.valorDefecto == 'SI'; else noCumple">
+              <i class="dx-icon-check"></i>
+            </div>
+            <ng-template #noCumple>
+              <i class="dx-icon-close"></i>
+            </ng-template>
+        </div>
+        <ng-template #noInclude>
+          <div *ngIf="dt.data.valorDefecto == 'NO'">
+            <i class="dx-icon-check"></i>
+          </div>
+          <div *ngIf="dt.data.valorDefecto == 'SI'">
+            <i class="dx-icon-close"></i>
+          </div>
+        </ng-template>
+      </div>
+      </div>
   </dx-data-grid>
   <div class="item actions-toolbar">
     <dx-button

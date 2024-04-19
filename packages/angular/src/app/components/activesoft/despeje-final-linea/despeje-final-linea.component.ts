@@ -1,5 +1,9 @@
 import { Component, Input, NgModule, OnInit, ViewChild } from '@angular/core';
-import { DxButtonModule, DxDataGridComponent, DxDataGridModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridComponent,
+  DxDataGridModule,
+} from 'devextreme-angular';
 import { OrderInfoAreaModule } from '../order-info-area/order-info-area.component';
 import { ToolbarDespejeResponsableModule } from '../toolbar-despeje-responsable/toolbar-despeje-responsable.component';
 import { DespejeLineaService } from 'src/app/services/despeje-linea.service';
@@ -37,57 +41,20 @@ export class DespejeFinalLineaComponent implements OnInit {
   idOperacion: string | null;
   alertaText: string;
 
-  constructor(private despejeLineaService: DespejeLineaService, private proDespejeOrdenService: ProDespejeOrdenService){}
-  
+  constructor(
+    private despejeLineaService: DespejeLineaService,
+    private proDespejeOrdenService: ProDespejeOrdenService
+  ) {}
+
   ngOnInit(): void {
-    this.despejeLineaService.getDespejeLinea(TIPO_DESPEJE).subscribe(value => {
-      value?.forEach(item => {
-        this.datasource.push({
-          id: item.id,
-          descripcion: item.descripcion,
-          descTipoDespeje: item.descTipoDespeje,
-          valordefecto: '',
-          idTipoDespeje: item.idTipoDespeje,
-          resultado: true,
-        })
-      })
-    })
+    this.getItems();
   }
 
   handleAceptarButton() {
-    if (this.realizadoPor && this.verificadoPor && this.idOperacion) {
-      const now: Date = new Date();
-      const items = this.dataGridDespejeInicial.instance
-        .getDataSource()
-        .items();
-      items.forEach((item) => {
-        console.log(item);
-        this.proDespejeOrdenService
-          .createProDespejeOrden({
-            idCompro: this.idCompro,
-            numero: this.numOrd,
-            idProDespejeLinea: item.id,
-            idOperacion: this.idOperacion,
-            idRealizadoPor: this.realizadoPor,
-            idVerificadoPor: this.verificadoPor,
-            valor: item.valorDefecto,
-            resultado: '1',
-            fecReg: now,
-            fecMod: now,
-          }).pipe(catchError((error) => {
-            this.alert = true;
-            this.alertaText = 'Ocurrió un error al guardar los datos'
-            console.error('Ocurrió un error:', error);
-            return of('error al guardar'); 
-          }))
-          .subscribe((value) => {
-            this.alert = true;
-            this.alertaText = '¡Datos almacenados con exito!'
-          });
-      });
+    if (this.validarCampos()) {
+      this.insertarItems();
     } else {
-      this.alert = true;
-      this.alertaText = 'Complete todos los datos antes de continuar';
+      this.camposVacios();
     }
   }
 
@@ -110,6 +77,64 @@ export class DespejeFinalLineaComponent implements OnInit {
   handleClickAlert() {
     this.alert = !this.alert;
   }
+
+  private getItems() {
+    this.despejeLineaService
+      .getDespejeLinea(TIPO_DESPEJE)
+      .subscribe((value) => {
+        value?.forEach((item) => {
+          this.datasource.push({
+            id: item.id,
+            descripcion: item.descripcion,
+            descTipoDespeje: item.descTipoDespeje,
+            valorDefecto: undefined,
+            idTipoDespeje: item.idTipoDespeje,
+            resultado: true,
+          });
+        });
+      });
+  }
+
+  private validarCampos(): boolean {
+    const tieneRealizador = !!this.realizadoPor;
+    const tieneVerificador = !!this.verificadoPor;
+    const tieneIdOperacion = !!this.idOperacion;
+
+    return tieneRealizador && tieneVerificador && tieneIdOperacion;
+  }
+
+  private insertarDespeje(idItem: number, valor: string, now: Date) {
+    return {
+      idCompro: this.idCompro,
+      numero: this.numOrd,
+      idProDespejeLinea: idItem,
+      idOperacion: this.idOperacion,
+      idRealizadoPor: this.realizadoPor,
+      idVerificadoPor: this.verificadoPor,
+      valor: valor,
+      resultado: '1',
+      fecReg: now,
+      fecMod: now,
+    };
+  }
+
+  private insertarItems() {
+    const now: Date = new Date();
+    const items = this.dataGridDespejeInicial.instance.getDataSource().items();
+    items.forEach((item) => {
+      this.proDespejeOrdenService
+        .createProDespejeOrden(this.insertarDespeje(item.id, item.valorDefecto, now))
+        .subscribe((value) => {
+          this.alert = true;
+          this.alertaText = '¡Datos almacenados con exito!';
+        });
+    });
+  }
+
+  private camposVacios(): void {
+    this.alert = true;
+    this.alertaText = 'Complete todos los datos antes de continuar';
+  }
 }
 
 @NgModule({
@@ -120,7 +145,7 @@ export class DespejeFinalLineaComponent implements OnInit {
     ToolbarDespejeResponsableModule,
     DxButtonModule,
     CommonModule,
-    AlertModule
+    AlertModule,
   ],
   providers: [DespejeLineaService, ProDespejeOrdenService],
   exports: [DespejeFinalLineaComponent],

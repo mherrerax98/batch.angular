@@ -12,13 +12,27 @@
   </div>
   <div class="item">
     <app-toolbar-despeje-responsable
-      (onSelectedItems)="handleSelectedOperarios($event)"
       (onValueChangedVerificadoPor)="handleOnValueChangedVerificadoPor($event)"
       (onValueChangedRealizadoPor)="handleOnValueChangedRealizadoPor($event)"
     ></app-toolbar-despeje-responsable>
   </div>
 
-  <dx-data-grid [dataSource]="datasource" [showBorders]="true">
+  <div class="item num-orden">
+    <div class="dx-field">
+      <div class="dx-field-label">N° Orden anterior</div>
+      <div class="dx-field-value">
+        <dx-number-box
+          [showClearButton]="true"
+          [inputAttr]="{ 'aria-label': 'Orden' }"
+          placeholder="digite N° orden anterior"
+          [(value)]="numOrdAnt"
+        >
+        </dx-number-box>
+      </div>
+    </div>
+  </div>
+  
+  <dx-data-grid [dataSource]="items" [showBorders]="true">
     <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
 
     <dxi-column
@@ -27,7 +41,6 @@
       [width]="'70%'"
       caption="Descripción"
     ></dxi-column>
-    <!--cellTemplate="optionsTemplate"-->
     <dxi-column
       dataField="valorDefecto"
       [allowEditing]="true"
@@ -45,15 +58,25 @@
     ></dxi-column>
 
     <div *dxTemplate="let dt of 'resultadoTemplate'">
-      <div *ngIf="dt.data.resultado == true"><i class="dx-icon-check"></i></div>
-      <div *ngIf="dt.data.resultado == false">
-        <i class="dx-icon-close"></i>
+      <div *ngIf="dt.data.valorDefecto != undefined">
+        <div *ngIf="![4].includes(dt.data.id); else noInclude">
+            <div *ngIf="dt.data.valorDefecto == 'SI'; else noCumple">
+              <i class="dx-icon-check"></i>
+            </div>
+            <ng-template #noCumple>
+              <i class="dx-icon-close"></i>
+            </ng-template>
+        </div>
+        <ng-template #noInclude>
+          <div *ngIf="dt.data.valorDefecto == 'NO'">
+            <i class="dx-icon-check"></i>
+          </div>
+          <div *ngIf="dt.data.valorDefecto == 'SI'">
+            <i class="dx-icon-close"></i>
+          </div>
+        </ng-template>
       </div>
-      <div *ngIf="dt.data.resultado == undefined"> </div>
     </div>
-    <!--<div *dxTemplate="let options of 'optionsTemplate'">
-      <dx-drop-down-button [useSelectMode]="true" width="100%" [dataSource]="['SÍ','NO']"></dx-drop-down-button>
-    </div>-->
   </dx-data-grid>
   <div class="item actions-toolbar">
     <dx-button

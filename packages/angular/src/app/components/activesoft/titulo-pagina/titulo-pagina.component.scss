@@ -1,0 +1,31 @@
+.wrapper {
+    width: 100%;
+    .container{
+        padding: 8px;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .titulo {
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-overflow: clip;
+        color: #2D307E;
+        width: 80%;
+    }
+
+    .accion {
+        display: flex;
+        justify-content: flex-end;
+        width: 20%;
+
+        ::ng-deep .dx-button-has-icon .dx-icon {
+            font-size: 30px;
+            color: #2D307E;
+        }
+    }
+}

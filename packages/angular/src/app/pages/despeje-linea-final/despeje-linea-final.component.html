@@ -1,5 +1,5 @@
 <div class="dlf-view-wrapper">
-  <div class="item title">Despeje Linea Final</div>
+  <app-titulo-pagina [titulo]="titulo" (onClickVolver)="handleOnClickVolver()"></app-titulo-pagina>
   <div class="item">
     <app-despeje-final-linea
       [editable]="!editable"

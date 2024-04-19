@@ -1,5 +1,5 @@
 <div class="dl-view-wrapper">
-  <div class="item title"> Despeje Linea Inicial </div>
+  <app-titulo-pagina [titulo]="titulo" (onClickVolver)="handleOnClickVolver()"></app-titulo-pagina>
   <div class="item">
     <app-despeje-linea-inicial 
       [editable]="!editable" 

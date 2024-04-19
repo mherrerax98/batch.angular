@@ -2,7 +2,7 @@ export interface DespejeLinea {
     id: number,
     descripcion: string,
     descTipoDespeje: string,
-    valordefecto: string,
+    valorDefecto: string,
     idTipoDespeje: number
 }
 

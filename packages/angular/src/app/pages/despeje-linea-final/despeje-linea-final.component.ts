@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { AsignacionRecursosModule } from 'src/app/components/activesoft/asignacion-recursos/asignacion-recursos.component';
 import { DespejeFinalLineaModule } from 'src/app/components/activesoft/despeje-final-linea/despeje-final-linea.component';
+import { TituloPaginaModule } from 'src/app/components/activesoft/titulo-pagina/titulo-pagina.component';
 
 @Component({
   selector: 'app-despeje-linea-final',
@@ -11,18 +12,18 @@ import { DespejeFinalLineaModule } from 'src/app/components/activesoft/despeje-f
   styleUrls: ['./despeje-linea-final.component.scss'],
 })
 export class DespejeLineaFinalComponent implements OnInit {
-
   editable: boolean;
-  operacion?: string ;
+  operacion?: string;
   numOrd: any;
   idCompro: any;
   idPlanta: any;
+  titulo: string = '';
 
-  constructor(private router: Router, private activateRoute: ActivatedRoute){
+  constructor(private router: Router, private activateRoute: ActivatedRoute) {
     this.editable = true;
   }
   ngOnInit(): void {
-    this.activateRoute.queryParams.subscribe(params => {
+    this.activateRoute.queryParams.subscribe((params) => {
       // Aquí puedes acceder a los valores de los parámetros
       const editable = params['editable'];
       const numOrd = params['numord'];
@@ -43,6 +44,17 @@ export class DespejeLineaFinalComponent implements OnInit {
   handleAceptarButton(): void {
     this.router.navigate(['operacion-proceso-page']);
   }
+
+  handleOnClickVolver() {
+    this.router.navigate(['portada'], {
+      queryParams: {
+        editable: 'n',
+        planta: this.idPlanta,
+        numord: this.numOrd,
+        compro: this.idCompro,
+      }
+    })
+  }
 }
 
 @NgModule({
@@ -52,6 +64,7 @@ export class DespejeLineaFinalComponent implements OnInit {
     CommonModule,
     DespejeFinalLineaModule,
     AsignacionRecursosModule,
+    TituloPaginaModule,
   ],
   providers: [],
   exports: [DespejeLineaFinalComponent],

@@ -9,6 +9,7 @@ import {
 import { ClickEvent } from 'devextreme/ui/button';
 import { AsignacionRecursosModule } from 'src/app/components/activesoft/asignacion-recursos/asignacion-recursos.component';
 import { DespejeLineaInicialModule } from 'src/app/components/activesoft/despeje-linea-inicial/despeje-linea-inicial.component';
+import { TituloPaginaModule } from 'src/app/components/activesoft/titulo-pagina/titulo-pagina.component';
 import { DespejeLinea } from 'src/app/types/despeje';
 
 @Component({
@@ -24,12 +25,9 @@ export class DespejeLineaComponent implements OnInit {
   idCompro: any;
   idPlanta: any;
   enableOp: boolean = true;
+  titulo: string = 'Despeje de inicial';
 
-  constructor(
-    private router: Router,
-    private activateRoute: ActivatedRoute,
-  ) {
-  }
+  constructor(private router: Router, private activateRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.activateRoute.queryParams.subscribe((params) => {
@@ -64,8 +62,15 @@ export class DespejeLineaComponent implements OnInit {
     this.operation = 'ar';
   }
 
-  handleAceptarButton(): void {
-    this.router.navigate(['operacion-proceso-page']);
+  handleOnClickVolver() {
+    this.router.navigate(['portada'], {
+      queryParams: {
+        editable: 'n',
+        planta: this.idPlanta,
+        numord: this.numOrd,
+        compro: this.idCompro,
+      }
+    });
   }
 }
 
@@ -79,6 +84,7 @@ export class DespejeLineaComponent implements OnInit {
     DespejeLineaInicialModule,
     AsignacionRecursosModule,
     DxButtonModule,
+    TituloPaginaModule,
   ],
   providers: [],
   exports: [DespejeLineaComponent],
