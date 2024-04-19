@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DespejeLinea } from '../types/despeje';
+import { API_URL } from './url';
 
-const API_URL = 'https://localhost:7283';
 
 @Injectable()
 export class DespejeLineaService {

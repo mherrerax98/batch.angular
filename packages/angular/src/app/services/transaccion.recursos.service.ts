@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TransaccionDetalle } from '../types/transaccion';
 import { Observable } from 'rxjs';
 import { Product } from '../types/producto';
-
-const API_URL = 'https://localhost:7283';
+import { API_URL } from './url';
 
 @Injectable()
 export class TransaccionRecursosService {

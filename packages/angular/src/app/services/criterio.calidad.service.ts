@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CriterioCalidad } from '../types/criterio.calidad';
+import { API_URL } from './url';
 
-const API_URL = 'https://localhost:7283';
 
 @Injectable()
 export class CriterioCalidadService {

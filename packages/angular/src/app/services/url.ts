@@ -1,1 +1,1 @@
-export const URL =  'https://127.0.0.1:7283'
+export const API_URL =  'https://web.cloudxirux.com:35607/BatchRAPI';

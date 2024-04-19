@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ProDespejeOrden } from '../types/despeje';
 import { Observable } from 'rxjs';
-
-const API_URL = 'https://localhost:7283';
+import { API_URL } from './url';
 
 @Injectable()
 export class ProDespejeOrdenService {
