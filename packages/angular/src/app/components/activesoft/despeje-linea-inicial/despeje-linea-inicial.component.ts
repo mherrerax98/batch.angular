@@ -92,7 +92,7 @@ export class DespejeLineaInicialComponent implements OnInit {
           })
           .subscribe((value) => {
             this.alert = true;
-            this.alertaText = '¡Datos almacenados con exito!'
+            this.alertaText = '¡Datos almacenados con exito!';
           });
       });
     } else {
