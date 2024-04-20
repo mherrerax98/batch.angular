@@ -86,7 +86,7 @@ export class DespejeLineaInicialComponent implements OnInit {
             id: item.id,
             descripcion: item.descripcion,
             descTipoDespeje: item.descTipoDespeje,
-            valordefecto: undefined,
+            valorDefecto: undefined,
             idTipoDespeje: item.idTipoDespeje,
             resultado: true,
           });
@@ -96,19 +96,14 @@ export class DespejeLineaInicialComponent implements OnInit {
   }
 
   private guardarDespejeInicial() {
-    if (
-      this.realizadoPor &&
-      this.verificadoPor &&
-      this.idOperacion &&
-      this.numOrdAnt
-    ) {
-      const now: Date = new Date();;
+    if (this.validarCampos()) {
+      const now: Date = new Date();
       const numeroOrdenItem = this.datasource.find((value) => value.id == 1);
       this.insertarNumeroOrde(numeroOrdenItem.id, this.numOrdAnt, now);
       this.insertarItems(now);
+      this.mostrarAlerta('¡Datos almacenados con exito!');
     } else {
-      this.alert = true;
-      this.alertaText = 'Complete todos los datos antes de continuar';
+      this.mostrarAlerta('Complete todos los datos antes de continuar');
     }
   }
 
@@ -132,20 +127,47 @@ export class DespejeLineaInicialComponent implements OnInit {
     };
   }
 
-  private insertarNumeroOrde(idItem: number, numOrden: number, now){
-    this.proDespejeOrdenService.createProDespejeOrden(this.insertarDespejeOrden(idItem, numOrden, now, now)).subscribe(value=>{console.log(value)});
+  private insertarNumeroOrde(idItem: number, numOrden: number, now) {
+    this.proDespejeOrdenService
+      .createProDespejeOrden(
+        this.insertarDespejeOrden(idItem, numOrden, now, now)
+      )
+      .subscribe((value) => {
+      });
   }
 
   private insertarItems(now: Date) {
-    
     this.items.forEach((item) => {
-        this.proDespejeOrdenService
-          .createProDespejeOrden(this.insertarDespejeOrden(item.id, item.valorDefecto, now, now))
-          .subscribe((value) => {
-            this.alert = true;
-            this.alertaText = '¡Datos almacenados con exito!';
-          });
-      });
+      this.proDespejeOrdenService
+        .createProDespejeOrden(
+          this.insertarDespejeOrden(item.id, item.valorDefecto, now, now)
+        )
+        .subscribe((value) => {});
+    });
+  }
+
+  private validarCampos(): boolean {
+    const tieneRealizador = !!this.realizadoPor;
+    const tieneVerificador = !!this.verificadoPor;
+    const tieneOrden = !!this.numOrdAnt;
+    const tieneOperacion = !!this.idOperacion;
+    let itemsVacios = false; 
+    this.items.forEach(value => {
+      itemsVacios = value.valorDefecto == undefined || value.valorDefecto == '' ? true: false;
+    });
+
+    return (
+      tieneRealizador &&
+      tieneVerificador &&
+      tieneOrden &&
+      tieneOperacion &&
+      !itemsVacios
+    );
+  }
+
+  private mostrarAlerta(mensaje: string) {
+    this.alert = true;
+    this.alertaText = mensaje;
   }
 }
 

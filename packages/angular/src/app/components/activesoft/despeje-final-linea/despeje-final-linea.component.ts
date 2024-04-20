@@ -52,9 +52,10 @@ export class DespejeFinalLineaComponent implements OnInit {
 
   handleAceptarButton() {
     if (this.validarCampos()) {
-      this.insertarItems();
+      // this.insertarItems();
+      this.mostrarAlerta('¡Datos almacenados con exito!');
     } else {
-      this.camposVacios();
+      this.mostrarAlerta('Complete todos los datos antes de continuar');
     }
   }
 
@@ -99,8 +100,12 @@ export class DespejeFinalLineaComponent implements OnInit {
     const tieneRealizador = !!this.realizadoPor;
     const tieneVerificador = !!this.verificadoPor;
     const tieneIdOperacion = !!this.idOperacion;
+    let itemsVacios = false;
+    this.datasource.forEach(value => {
+      itemsVacios = !value.valorDefecto || value.valorDefecto.trim() === '';
+    });
 
-    return tieneRealizador && tieneVerificador && tieneIdOperacion;
+    return tieneRealizador && tieneVerificador && tieneIdOperacion && !itemsVacios;
   }
 
   private insertarDespeje(idItem: number, valor: string, now: Date) {
@@ -125,15 +130,13 @@ export class DespejeFinalLineaComponent implements OnInit {
       this.proDespejeOrdenService
         .createProDespejeOrden(this.insertarDespeje(item.id, item.valorDefecto, now))
         .subscribe((value) => {
-          this.alert = true;
-          this.alertaText = '¡Datos almacenados con exito!';
         });
     });
   }
 
-  private camposVacios(): void {
+  private mostrarAlerta(mensaje: string): void {
     this.alert = true;
-    this.alertaText = 'Complete todos los datos antes de continuar';
+    this.alertaText = mensaje;
   }
 }
 

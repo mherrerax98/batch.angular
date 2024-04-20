@@ -17,7 +17,7 @@ export class DespejeLineaFinalComponent implements OnInit {
   numOrd: any;
   idCompro: any;
   idPlanta: any;
-  titulo: string = '';
+  titulo: string = 'Despeje Final';
 
   constructor(private router: Router, private activateRoute: ActivatedRoute) {
     this.editable = true;

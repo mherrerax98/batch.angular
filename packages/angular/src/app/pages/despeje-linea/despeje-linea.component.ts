@@ -25,7 +25,7 @@ export class DespejeLineaComponent implements OnInit {
   idCompro: any;
   idPlanta: any;
   enableOp: boolean = true;
-  titulo: string = 'Despeje de inicial';
+  titulo: string = 'Despeje inicial';
 
   constructor(private router: Router, private activateRoute: ActivatedRoute) {}
 

@@ -30,7 +30,7 @@
       width="15%"
       caption="Valor"
     >
-    <dxo-lookup [dataSource]="[' ','NO','SI']"></dxo-lookup>
+    <dxo-lookup [dataSource]="['','NO','SI']"></dxo-lookup>
   </dxi-column>
     <dxi-column
       dataField="resultado"
@@ -41,7 +41,7 @@
     ></dxi-column>
 
     <div *dxTemplate="let dt of 'resultadoTemplate'">
-      <div *ngIf="dt.data.valorDefecto != undefined">
+      <div *ngIf="dt.data.valorDefecto != undefined && dt.data.valorDefecto != ''">
         <div *ngIf="![8].includes(dt.data.id); else noInclude">
             <div *ngIf="dt.data.valorDefecto == 'SI'; else noCumple">
               <i class="dx-icon-check"></i>
