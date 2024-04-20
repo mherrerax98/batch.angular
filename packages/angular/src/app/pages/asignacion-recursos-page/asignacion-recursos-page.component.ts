@@ -106,60 +106,61 @@ export class AsignacionRecursosPageComponent implements OnInit {
     this.addRegister = cancelRegister;
   }
 
-  handleIniciarBtn() {
-    const now: Date = new Date();
-    const hora: string = `${now.getHours().toString().padStart(2, '0')}:${now
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`;
-    this.asignacionRecursos.forEach((item) => {
-      this.transaccionRecursos
-        .postTransaccionRecurso({
-          idCompro: this.idCompro,
-          numero: this.numOrd,
-          idOperac: this.idCompro,
-          operario: item.operario,
-          fechaIni: now,
-          horaIni: hora,
-          fechaFin: now,
-          horaFin: hora,
-          horasTotal: 0,
-          idProduc: this.product.id,
-          idPlanta: this.idPlanta,
-          idOperacion: this.idOperacion,
-          idRecurso: this.idRecurso,
-          fechaElab: now,
-          tipoTransaccion: 'R',
-          tipoTiempo: 'E',
-          idCausa: '',
-          idActivo: '',
-          idUsuari: 'PYGLPR3',
-          operac: 'A',
-          fecMod: new Date(),
-        }).pipe(catchError((error) => {
-          console.error('Ocurrió un error:', error);
-          return of('error al guardar'); 
-        }))
-        .subscribe((value) => {
-          console.log(value);
-        });
-    });
+    handleIniciarBtn() {
+  //   const now: Date = new Date();
+  //   const hora: string = `${now.getHours().toString().padStart(2, '0')}:${now
+  //     .getMinutes()
+  //     .toString()
+  //     .padStart(2, '0')}`;
+  //   [1,2,3,4,5,6,7,8,9].forEach((item) => {
+  //     this.transaccionRecursos
+  //       .postTransaccionRecurso({
+  //         idCompro: "6300",
+  //         idOperac: "6300",
+  //         numero: 62580,
+  //         idProduc: "101100372",
+  //         idPlanta: "0001",
+  //         idOperacion: "0006",
+  //         operario: {
+  //           id: "0001",
+  //           name: "AIVR"
+  //         },
+  //         idRecurso: "000003",
+  //         fechaElab: now,
+  //         fechaIni: now,
+  //         horaIni: "10:35",
+  //         fechaFin: now,
+  //         horaFin: "10:40",
+  //         horasTotal: 0.02,
+  //         tipoTransaccion: "R",
+  //         tipoTiempo: "E",
+  //         idCausa: null,
+  //         idActivo: null,
+  //         idUsuari: "PYGLPR1",
+  //         operac: "A",
+  //         fecMod: now
+  //       })
+  //       .subscribe((value) => {
+  //         console.log(value);
+  //       });
+  //   }
+  // );
 
-    this.asignacionRecursos = this.asignacionRecursos.map(
-      (transaccion: Transaccion) => {
-        if (!transaccion.fechaIni) {
-          const now: Date = new Date();
-          return {
-            idOperac: transaccion.idOperac,
-            operario: transaccion.operario,
-            fechaIni: now.toISOString(),
-            horaIni: hora,
-          };
-        }
-        return transaccion;
-      }
-    );
-  }
+  //   this.asignacionRecursos = this.asignacionRecursos.map(
+  //     (transaccion: Transaccion) => {
+  //       if (!transaccion.fechaIni) {
+  //         const now: Date = new Date();
+  //         return {
+  //           idOperac: transaccion.idOperac,
+  //           operario: transaccion.operario,
+  //           fechaIni: now.toISOString(),
+  //           horaIni: hora,
+  //         };
+  //       }
+  //       return transaccion;
+  //     }
+  //   );
+     }
 
   handleDetenerTodoBtn() {
     this.asignacionRecursos = this.asignacionRecursos.map(
