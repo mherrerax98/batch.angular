@@ -52,7 +52,7 @@ export class DespejeFinalLineaComponent implements OnInit {
 
   handleAceptarButton() {
     if (this.validarCampos()) {
-      // this.insertarItems();
+      this.insertarItems();
       this.mostrarAlerta('¡Datos almacenados con exito!');
     } else {
       this.mostrarAlerta('Complete todos los datos antes de continuar');
@@ -100,10 +100,7 @@ export class DespejeFinalLineaComponent implements OnInit {
     const tieneRealizador = !!this.realizadoPor;
     const tieneVerificador = !!this.verificadoPor;
     const tieneIdOperacion = !!this.idOperacion;
-    let itemsVacios = false;
-    this.datasource.forEach(value => {
-      itemsVacios = !value.valorDefecto || value.valorDefecto.trim() === '';
-    });
+    const itemsVacios = this.datasource.some(value => !!value.valorDefecto === false);
 
     return tieneRealizador && tieneVerificador && tieneIdOperacion && !itemsVacios;
   }

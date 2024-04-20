@@ -151,10 +151,7 @@ export class DespejeLineaInicialComponent implements OnInit {
     const tieneVerificador = !!this.verificadoPor;
     const tieneOrden = !!this.numOrdAnt;
     const tieneOperacion = !!this.idOperacion;
-    let itemsVacios = false; 
-    this.items.forEach(value => {
-      itemsVacios = value.valorDefecto == undefined || value.valorDefecto == '' ? true: false;
-    });
+    const itemsVacios = this.items.some(value => !!value.valorDefecto === false);
 
     return (
       tieneRealizador &&
