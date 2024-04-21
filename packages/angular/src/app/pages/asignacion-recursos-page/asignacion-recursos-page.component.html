@@ -1,5 +1,5 @@
 <div class="view-wrapper">
-  <div class="item title"> Transaccion de Recursos </div>
+  <app-titulo-pagina titulo="Transaccion de Recursos"></app-titulo-pagina>
   <div class="item">
     <app-order-info-area
       [editable]="editable"
@@ -20,6 +20,7 @@
         noDataText=""
         height="100%"
         [showBorders]="true"
+        keyExpr="idTransaccion"
       >
         <dxo-sorting mode="single"></dxo-sorting>
         <dxo-editing [allowDeleting]="true" [allowUpdating]="true">
@@ -46,7 +47,7 @@
           <dxi-item location="before">
             <dx-button
               text="Detener"
-              icon="./assets/icons/pause.png"
+              icon="square"
               (onClick)="handleDetenerTodoBtn()"
             ></dx-button>
           </dxi-item>
@@ -85,22 +86,26 @@
           [allowEditing]="true"
           sortOrder="asc"
           dataType="date"
+          [calculateDisplayValue]="calcularFechaIni"
         ></dxi-column>
         <dxi-column
           [minWidth]="100"
           dataField="horaIni"
           [allowEditing]="false"
+          [calculateDisplayValue]="calcularHoraIni"
         ></dxi-column>
         <dxi-column
           [minWidth]="100"
           dataField="fechaFin"
           [allowEditing]="true"
           dataType="date"
+          [calculateDisplayValue]="calcularFechaFin"
         ></dxi-column>
         <dxi-column
           [minWidth]="100"
           dataField="horaFin"
           [allowEditing]="false"
+          [calculateDisplayValue]="calcularHoraFin"
         ></dxi-column>
         <dxi-column
           [minWidth]="100"
@@ -120,13 +125,9 @@
         >
           <dx-button
             [style.margin-right]="'8px'"
-            icon="./assets/icons/pause.png"
+            icon="square"
             (onClick)="handlePauseBtn(data)"
           ></dx-button>
-          <!--<dx-button
-            icon="./../../../../assets/icons/bin.png"
-            (onClick)="handleDeleteTransaccion(data)"
-          ></dx-button>-->
         </div>
       </dx-data-grid>
     </div>

@@ -16,11 +16,16 @@ import { ToolbarActionsModule } from 'src/app/components/activesoft/toolbar-acti
 import { FormAsignacionRecursosModule } from 'src/app/components/activesoft/form-asignacion-recursos/form-asignacion-recursos.component';
 import { TransaccionRecursosService } from 'src/app/services/transaccion.recursos.service';
 import { Operario } from 'src/app/types/operario';
-import { Transaccion, TransaccionDetalle } from 'src/app/types/transaccion';
+import {
+  ActualizarRecurso,
+  Transaccion,
+  TransaccionDetalle,
+} from 'src/app/types/transaccion';
 import { Operacion } from 'src/app/types/operacion';
 import { Product } from 'src/app/types/producto';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { TituloPaginaModule } from 'src/app/components/activesoft/titulo-pagina/titulo-pagina.component';
 
 @Component({
   selector: 'app-asignacion-recursos-page',
@@ -32,7 +37,7 @@ export class AsignacionRecursosPageComponent implements OnInit {
   editable: boolean;
   operacion?: string;
   newRows: boolean;
-  asignacionRecursos: Transaccion[] = [];
+  asignacionRecursos: any[] = [];
   alertMessage: string =
     'Existen transacciones abiertas. Asegurese de cerrar todas las transacciones antes de continuar.';
   isVisible = false;
@@ -50,6 +55,8 @@ export class AsignacionRecursosPageComponent implements OnInit {
   operario: Operario[] = [];
   product: Product;
   idRecurso: string;
+  nuevoRecurso: any[] = [];
+  recursos: any[] = [];
 
   constructor(
     private router: Router,
@@ -93,133 +100,200 @@ export class AsignacionRecursosPageComponent implements OnInit {
   }
 
   handleAddRegister(operarios: Operario[]) {
-    operarios.forEach((operario) => {
-      this.asignacionRecursos.push({
-        idOperac: '6300',
-        operario: operario,
-      });
+    const date: Date = new Date();
+    const hora: string = this.getHora(date);
+    this.nuevoRecurso = this.agregarRecurso(operarios, date, hora);
+    this.transaccionRecursos.post(this.nuevoRecurso).subscribe((recursos) => {
+      this.asignacionRecursos.push(...recursos);
     });
     this.addRegister = false;
+  }
+
+  calcularFechaFin: Function = ({ fechaIni, fechaFin }) =>
+    fechaFin > fechaIni ? fechaFin : '';
+  calcularHoraFin: Function = ({ fechaIni, fechaFin, horaFin }) =>
+    fechaFin > fechaIni ? horaFin : '';
+  calcularFechaIni: Function = ({ fechaIni, fechaFin }) =>
+    fechaIni === fechaFin ? '' : fechaIni;
+  calcularHoraIni: Function = ({ fechaIni, fechaFin, horaIni }) =>
+    fechaIni === fechaFin ? '' : horaIni;
+
+  private agregarRecurso(operarios: Operario[], date: Date, hora: string) {
+    return operarios.map((operario) => {
+      return {
+        idOperac: '6300',
+        operario: operario,
+        idCompro: this.idCompro,
+        numero: this.numOrd,
+        idProduc: this.product.id,
+        idPlanta: this.idPlanta,
+        idOperacion: this.idOperacion,
+        idRecurso: this.idRecurso,
+        tipoTransaccion: 'R',
+        tipoTiempo: 'E',
+        idCausa: null,
+        idActivo: null,
+        idUsuari: 'PYGLPR1',
+        operac: 'A',
+        fechaElab: date,
+        fechaIni: date,
+        horaIni: hora,
+        fechaFin: date,
+        horaFin: hora,
+        horasTotal: 0,
+        fecMod: date,
+      };
+    });
   }
 
   handleCancelRegister(cancelRegister: boolean) {
     this.addRegister = cancelRegister;
   }
 
-    handleIniciarBtn() {
-  //   const now: Date = new Date();
-  //   const hora: string = `${now.getHours().toString().padStart(2, '0')}:${now
-  //     .getMinutes()
-  //     .toString()
-  //     .padStart(2, '0')}`;
-  //   [1,2,3,4,5,6,7,8,9].forEach((item) => {
-  //     this.transaccionRecursos
-  //       .postTransaccionRecurso({
-  //         idCompro: "6300",
-  //         idOperac: "6300",
-  //         numero: 62580,
-  //         idProduc: "101100372",
-  //         idPlanta: "0001",
-  //         idOperacion: "0006",
-  //         operario: {
-  //           id: "0001",
-  //           name: "AIVR"
-  //         },
-  //         idRecurso: "000003",
-  //         fechaElab: now,
-  //         fechaIni: now,
-  //         horaIni: "10:35",
-  //         fechaFin: now,
-  //         horaFin: "10:40",
-  //         horasTotal: 0.02,
-  //         tipoTransaccion: "R",
-  //         tipoTiempo: "E",
-  //         idCausa: null,
-  //         idActivo: null,
-  //         idUsuari: "PYGLPR1",
-  //         operac: "A",
-  //         fecMod: now
-  //       })
-  //       .subscribe((value) => {
-  //         console.log(value);
-  //       });
-  //   }
-  // );
+  private getHora(date: Date): string {
+    return `${date.getHours().toString().padStart(2, '0')}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+  }
 
-  //   this.asignacionRecursos = this.asignacionRecursos.map(
-  //     (transaccion: Transaccion) => {
-  //       if (!transaccion.fechaIni) {
-  //         const now: Date = new Date();
-  //         return {
-  //           idOperac: transaccion.idOperac,
-  //           operario: transaccion.operario,
-  //           fechaIni: now.toISOString(),
-  //           horaIni: hora,
-  //         };
-  //       }
-  //       return transaccion;
-  //     }
-  //   );
-     }
+  handleIniciarBtn() {
+    const now: Date = new Date();
+    const hora: string = this.getHora(now);
+    const recursosSinIniciar = this.RecursosSinIniciar();
+    const recursosIniciados = this.iniciarRecursos(
+      recursosSinIniciar,
+      now,
+      hora
+    );
+    this.transaccionRecursos
+      .updateInicial(recursosIniciados)
+      .subscribe((recursos) => {
+        this.actualizarRecursos(recursos);
+      });
+  }
 
-  handleDetenerTodoBtn() {
-    this.asignacionRecursos = this.asignacionRecursos.map(
-      (transaccion: Transaccion) => {
-        if (!transaccion.fechaFin && transaccion.fechaIni) {
-          const now: Date = new Date();
-          const ffin: string = `${now.getFullYear()}-${now
-            .getMonth()
-            .toString()
-            .padStart(2, '0')}-${now.getDay().toString().padStart(2, '0')}`;
-          const hfin: string = `${now
-            .getHours()
-            .toString()
-            .padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-          return {
-            idOperac: transaccion.idOperac,
-            operario: transaccion.operario,
-            fechaIni: transaccion.fechaIni,
-            horaIni: transaccion.horaIni,
-            fechaFin: ffin,
-            horaFin: hfin,
-            horasTotal: this.horasTotal(
-              new Date(`${transaccion.fechaIni}T${transaccion.horaIni}:00`),
-              new Date(`${ffin}T${hfin}:00`)
-            ),
-          };
-        }
-        return transaccion;
-      }
+  actualizarRecursos(recursos: ActualizarRecurso[]) {
+    recursos.forEach((item) => {
+      const recurso = this.dxDataGrid.instance
+        .getDataSource()
+        .items()
+        .find((tr) => tr.idTransaccion === item.idTransaccion);
+      this.dxDataGrid.instance
+        .getDataSource()
+        .store()
+        .update(item.idTransaccion, {
+          ...recurso,
+          fechaIni: item.nuevaFecha,
+          horaIni: item.hora,
+        });
+    });
+  }
+
+  private iniciarRecursos(
+    recursosSinIniciar: any[],
+    now: Date,
+    hora: string
+  ): ActualizarRecurso[] {
+    return recursosSinIniciar.map((recurso) => {
+      return {
+        idTransaccion: recurso.idTransaccion,
+        idCompro: recurso.idCompro,
+        numero: recurso.numero,
+        nuevaFecha: now,
+        hora: hora,
+      };
+    });
+  }
+
+  private RecursosSinIniciar(): any[] {
+    const recursos: any[] = [];
+    this.asignacionRecursos.forEach((recurso) => {
+      const { fechaIni, fechaFin, horaIni, horaFin } = recurso;
+      const fechasIguales: boolean = fechaIni == fechaFin && horaIni == horaFin;
+      if (fechasIguales) recursos.push(recurso);
+    });
+    return recursos;
+  }
+
+  private detenerRecurso(
+    recursosSinDetener: any[],
+    date: Date,
+    hora: string
+  ): any[] {
+    return recursosSinDetener.map((recurso) => {
+      return {
+        idTransaccion: recurso.idTransaccion,
+        idCompro: recurso.idCompro,
+        numero: recurso.numero,
+        nuevaFecha: date,
+        hora: hora,
+        horasTotal: this.horasTotal(
+          this.formatearFecha(recurso.fechaIni, recurso.horaIni),
+          this.formatearFecha(date, hora)
+        ),
+      };
+    });
+  }
+
+  private recursosSinDetener(): any[] {
+    return this.asignacionRecursos.filter(
+      (recurso) => recurso.fechaIni > recurso.fechaFin
     );
   }
 
-  handlePauseBtn(data: any) {
+  handleDetenerTodoBtn() {
     const now: Date = new Date();
-    const { rowIndex } = data;
-    const transaccion: Transaccion = this.asignacionRecursos.at(rowIndex);
-    if (transaccion.fechaIni && transaccion.fechaFin) return;
-    if (transaccion.fechaIni) {
-      const ffin: string = `${now.getFullYear()}-${now
-        .getMonth()
-        .toString()
-        .padStart(2, '0')}-${now.getDay().toString().padStart(2, '0')}`;
-      const hfin: string = `${now.getHours().toString().padStart(2, '0')}:${now
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}`;
-      this.asignacionRecursos[rowIndex] = {
-        idOperac: transaccion.idOperac,
-        operario: transaccion.operario,
-        fechaIni: transaccion.fechaIni,
-        horaIni: transaccion.horaIni,
-        fechaFin: ffin,
-        horaFin: hfin,
+    const hora: string = this.getHora(now);
+    const recursosSinDetener = this.recursosSinDetener();
+    const recursosDetenidos: ActualizarRecurso[] = this.detenerRecurso(
+      recursosSinDetener,
+      now,
+      hora
+    );
+    this.transaccionRecursos
+      .updateFinal(recursosDetenidos)
+      .subscribe((actualizados) => {
+        actualizados.forEach((recurso) => {
+          const { idTransaccion, nuevaFecha, hora } = recurso;
+          this.actualizar(nuevaFecha, hora, idTransaccion);
+        });
+      });
+  }
+
+  actualizar(date: Date, hora: string, idTransaccion: number) {
+    const recurso = this.dxDataGrid.instance
+      .getDataSource()
+      .items()
+      .find((tr) => tr.idTransaccion === idTransaccion);
+    this.dxDataGrid.instance
+      .getDataSource()
+      .store()
+      .update(idTransaccion, {
+        fechaFin: date,
+        horaFin: hora,
         horasTotal: this.horasTotal(
-          new Date(`${transaccion.fechaIni}T${transaccion.horaIni}:00`),
-          new Date(`${ffin}T${hfin}:00`)
+          this.formatearFecha(recurso.fechaIni, recurso.horaIni),
+          this.formatearFecha(date, hora)
         ),
-      };
-    }
+      });
+  }
+
+  handlePauseBtn(recurso: any) {
+    const {
+      data: { idTransaccion },
+    } = recurso;
+    const now: Date = new Date();
+    const hora: string = this.getHora(now);
+    this.transaccionRecursos
+      .updateOne(this.idCompro, this.numOrd, idTransaccion, {
+        fecha: now,
+        hora: hora,
+      })
+      .subscribe((recurso) => {
+        const { idTransaccion, nuevaFecha, hora } = recurso;
+        this.actualizar(nuevaFecha, hora, idTransaccion);
+      });
   }
 
   handleDeleteTransaccion(data: any) {
@@ -242,8 +316,21 @@ export class AsignacionRecursosPageComponent implements OnInit {
     const diferenciaEnMinutos: number = Math.floor(
       diferenciaEnMilisegundos / 60000
     );
-
     return diferenciaEnMinutos / 60;
+  }
+
+  private formatearFecha(date: Date, hora: string): Date {
+    const _date = new Date(date);
+
+    if (isNaN(_date.getTime())) {
+        console.error('La cadena de texto no es una fecha válida:', date);
+        return null; 
+    }
+
+    const año = _date.getFullYear();
+    const mes = (_date.getMonth() + 1).toString().padStart(2, '0'); 
+    const dia = _date.getDate().toString().padStart(2, '0'); 
+    return new Date(`${año}-${mes}-${dia}T${hora}:00`);
   }
 
   handleTerminarProcesoBtn() {
@@ -272,7 +359,7 @@ export class AsignacionRecursosPageComponent implements OnInit {
   }
 
   handleOnSelectedRecurso(recurso: any) {
-    this.idRecurso = recurso
+    this.idRecurso = recurso;
   }
 }
 
@@ -289,6 +376,7 @@ export class AsignacionRecursosPageComponent implements OnInit {
     AlertModule,
     DxPopupModule,
     FormAsignacionRecursosModule,
+    TituloPaginaModule,
   ],
   providers: [TransaccionRecursosService],
   exports: [AsignacionRecursosPageComponent],

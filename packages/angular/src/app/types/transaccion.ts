@@ -33,3 +33,12 @@ export class TransaccionDetalle  {
     operac: string;
     fecMod: Date;
 }
+
+export interface ActualizarRecurso {
+    idCompro: string;
+    numero: number;
+    idTransaccion: number;
+    nuevaFecha: Date;
+    hora: string;
+    horasTotal?: number;
+}

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TransaccionDetalle } from '../types/transaccion';
+import { ActualizarRecurso, TransaccionDetalle } from '../types/transaccion';
 import { Observable } from 'rxjs';
 import { Product } from '../types/producto';
 import { API_URL } from './url';
+import { FechaHora } from '../types/fecha.hora';
 
 @Injectable()
-export class TransaccionRecursosService {
+export class TransaccionRecursosService {  
   constructor(private httpClient: HttpClient) {}
 
   public getTransaccionRecursos(
@@ -19,8 +20,24 @@ export class TransaccionRecursosService {
     );
   }
 
-  public postTransaccionRecurso(transaccion: TransaccionDetalle): Observable<TransaccionDetalle> {
-    return this.httpClient.post<TransaccionDetalle>(`${API_URL}/api/TransaccionesRecurso`, transaccion);
+  public post(transacciones: TransaccionDetalle[]): Observable<TransaccionDetalle[]> {
+    return this.httpClient.post<TransaccionDetalle[]>(`${API_URL}/api/TransaccionesRecurso/recursos`, transacciones);
+  }
+
+  public update(transacciones: TransaccionDetalle[]): Observable<TransaccionDetalle[]> {
+    return this.httpClient.put<TransaccionDetalle[]>(`${API_URL}/api/TransaccionesRecurso/recursos`, transacciones);
+  }
+
+  public updateInicial(transacciones: ActualizarRecurso[]): Observable<ActualizarRecurso[]> {
+    return this.httpClient.put<ActualizarRecurso[]>(`${API_URL}/api/TransaccionesRecurso/recursos`, transacciones);
+  }
+
+  public updateOne(idCompro: string, numero: number, idTransaccion: number, date: FechaHora): Observable<ActualizarRecurso>{
+    return this.httpClient.put<ActualizarRecurso>(`${API_URL}/api/TransaccionesRecurso/${idCompro}/${numero}/${idTransaccion}`, date);
+  }
+
+  public updateFinal(transacciones: ActualizarRecurso[]): Observable<ActualizarRecurso[]> {
+    return this.httpClient.put<ActualizarRecurso[]>(`${API_URL}/api/TransaccionesRecurso/recursos/final`, transacciones);
   }
 
   public getProductos(idCompro: string, numero: number): Observable<Product[]>{

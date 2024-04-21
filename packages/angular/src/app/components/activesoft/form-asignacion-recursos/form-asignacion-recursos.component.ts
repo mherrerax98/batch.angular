@@ -86,7 +86,7 @@ export class FormAsignacionRecursosComponent implements OnInit, OnChanges {
       if (operacion.currentValue) {
         console.log(this.compro, this.numero, operacion.currentValue)
         this.recursoService
-          .getRecursos(this.compro, this.numero, operacion.currentValue, 'BRP0000006')
+          .getRecursos(this.compro, this.numero, operacion.currentValue, this.products[0].id)
           .subscribe((value) => {
             this.recursos = value;
           });
