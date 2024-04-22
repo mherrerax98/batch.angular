@@ -113,6 +113,7 @@ export class OperacionProcesoComponent implements OnChanges {
         numord: this.orden.idCompro,
         compro: this.orden.numero,
         operacion: this.operacion,
+        desde: 'ruta-prod'
       },
     });
   }

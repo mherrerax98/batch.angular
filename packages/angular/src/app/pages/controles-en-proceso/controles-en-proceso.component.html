@@ -28,6 +28,7 @@
               [items]="medicion"
               [useSelectMode]="true"
               width="150"
+              [(selectedItem)]="medir"
             ></dx-drop-down-button>
           </div>
         </div>
@@ -36,7 +37,7 @@
         <div class="fields">
           <div class="field-label">Volumen(ml) / Peso(g)</div>
           <div class="field-value">
-            <dx-text-box [(value)]="volumenPeso"></dx-text-box>
+            <dx-number-box [(value)]="volumenPeso" [min]="0"></dx-number-box>
           </div>
         </div>
       </dxi-item>
@@ -44,7 +45,7 @@
         <div class="fields">
           <div class="field-label">Densidad</div>
           <div class="field-value">
-            <dx-text-box [(value)]="densidad"></dx-text-box>
+            <dx-number-box [(value)]="densidad" [min]="0"></dx-number-box>
           </div>
         </div>
       </dxi-item>
@@ -57,7 +58,7 @@
         <div class="fields">
           <div class="field-label">Minimo</div>
           <div class="field-value">
-            <dx-text-box [(value)]="minimo"></dx-text-box>
+            <dx-number-box [(value)]="minimo" [min]="0"></dx-number-box>
           </div>
         </div>
       </dxi-item>
@@ -65,7 +66,7 @@
         <div class="fields">
           <div class="field-label">Maximo</div>
           <div class="field-value">
-            <dx-text-box [(value)]="maximo"></dx-text-box>
+            <dx-number-box [(value)]="maximo" [min]="0"></dx-number-box>
           </div>
         </div>
       </dxi-item>
@@ -73,7 +74,7 @@
         <div class="fields">
           <div class="field-label">Promedio</div>
           <div class="field-value">
-            <dx-text-box [(value)]="promedio"></dx-text-box>
+            <dx-number-box [(value)]="promedio" [min]="0"></dx-number-box>
           </div>
         </div>
       </dxi-item>
@@ -100,7 +101,7 @@
       <dxo-editing
         [allowDeleting]="true"
         [allowUpdating]="true"
-        mode="row"
+        mode="cell"
       ></dxo-editing>
 
       <dxi-column dataField="fecha" [allowEditing]="false"></dxi-column>
@@ -122,19 +123,25 @@
         dataField="resultado"
         [allowEditing]="true"
         dataType="number"
-      ></dxi-column>
+        
+      >
+    </dxi-column>
       <dxi-column
         dataField="cumple"
         caption="Vo.Bo"
-        cellTemplate="verificacionTemplate"
+        cellTemplate="verificarVB"
+        [calculateCellValue]="calcularVistoBueno"
         [allowEditing]="false"
       ></dxi-column>
 
-      <div *dxTemplate="let dt of 'verificacionTemplate'">
-        <div *ngIf="dt.data.cumple == 'C'; else nCumple"
-          ><i class="dx-icon-check"></i
-        ></div>
-        <ng-template #nCumple><i class="dx-icon-close"></i></ng-template>
+      <div *dxTemplate="let dt of 'verificarVB'">
+        <div *ngIf="dt.data.cumple == 'S'">
+          <i  class="dx-icon-check"></i>
+        </div>
+        <div *ngIf="dt.data.cumple == 'N'">
+          <i class="dx-icon-close"></i>
+        </div>
+        <div></div>
       </div>
     </dx-data-grid>
   </div>
@@ -147,6 +154,8 @@
     ></dx-button>
     <dx-button text="Guardar" stylingMode="contained" icon="save"></dx-button>
   </div>
+
+  <app-alert [visible]="alert" [text]="alerText" (onClick)="handleClickAlert()"></app-alert>
 </div>
 
 <dx-popup [(visible)]="visibleEntrega" title="Entrega" width="500" height="500">

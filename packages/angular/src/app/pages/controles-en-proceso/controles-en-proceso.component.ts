@@ -9,15 +9,14 @@ import {
   DxDropDownButtonModule,
   DxFormComponent,
   DxFormModule,
+  DxNumberBoxModule,
   DxPopupModule,
   DxTextBoxModule,
   DxToolbarModule,
 } from 'devextreme-angular';
-import {
-  SavedEvent,
-  SelectionChangedEvent,
-} from 'devextreme/ui/data_grid';
+import { SavedEvent, SelectionChangedEvent } from 'devextreme/ui/data_grid';
 import { EnterKeyEvent } from 'devextreme/ui/tag_box_types';
+import { AlertModule } from 'src/app/components/activesoft/alert/alert.component';
 import { OrderInfoAreaModule } from 'src/app/components/activesoft/order-info-area/order-info-area.component';
 import { ToolbarControlesEnProcesoModule } from 'src/app/components/activesoft/toolbar-controles-en-proceso/toolbar-controles-en-proceso.component';
 import { OperarioService } from 'src/app/services/operario.service';
@@ -39,18 +38,20 @@ export class ControlesEnProcesoComponent implements OnInit {
   operacion?: string;
   medicion = ['Peso', 'Volumen'];
   producto = 'DL00000007';
-  volumenPeso: string;
-  densidad: string;
-  minimo: string;
-  promedio: string;
-  maximo: string;
+  volumenPeso: number;
+  densidad: number;
+  minimo: number;
+  promedio: number;
+  maximo: number;
+  alert: boolean;
+  alerText: string;
 
   envasadoDataSource: {
-    __KEY__: number,
+    __KEY__: number;
     fecha: Date;
     hora: string;
     realizadoPor: string;
-    resultado: number;
+    resultado: 0;
     cumple: string;
   }[] = [];
 
@@ -125,6 +126,19 @@ export class ControlesEnProcesoComponent implements OnInit {
   numOrd: any;
   idCompro: any;
   idPlanta: any;
+  medir: any;
+  calcularVistoBueno: Function = ({ __KEY__, resultado }) => {
+    let c: string = 'S';
+    if(!resultado){
+      c = ''
+    }else if (resultado < this.minimo || resultado > this.maximo) {
+      c = 'N';
+    }
+    this.controlProcesoDataGrid.instance
+      .getDataSource()
+      .store()
+      .update(__KEY__, { cumple: c });
+  };
 
   constructor(
     private acivateRoute: ActivatedRoute,
@@ -137,7 +151,22 @@ export class ControlesEnProcesoComponent implements OnInit {
   handleAgregarControl() {
     // this.enabledForm = !this.enabledForm;
     // this.form.instance.clear();
-    this.controlProcesoDataGrid.instance.addRow();
+    if (
+      this.volumenPeso &&
+      this.densidad &&
+      this.minimo &&
+      this.maximo &&
+      this.promedio
+    ) {
+      this.controlProcesoDataGrid.instance.addRow();
+    } else {
+      this.alert = true;
+      this.alerText = 'Complete todos los campos antes de agregar un registro';
+    }
+  }
+
+  handleClickAlert() {
+    this.alert = !this.alert;
   }
 
   handleGuardarBtn() {
@@ -185,17 +214,26 @@ export class ControlesEnProcesoComponent implements OnInit {
   handleSaved(event: SavedEvent) {
     const { changes } = event;
     const change = changes[0];
-    if(change){
+    console.log(change);
+    if (change) {
       const { data } = change;
       const { __KEY__ } = data;
       const now = new Date();
-      const hora = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`
-      const date = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}` 
-      this.controlProcesoDataGrid.instance.getDataSource().store().update(__KEY__, {
-        fecha: date,
-        cumple: 'N',
-        hora 
-      });
+      const hora = `${now.getHours().toString().padStart(2, '0')}:${now
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`;
+      const date = `${now.getFullYear()}/${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
+      this.controlProcesoDataGrid.instance
+        .getDataSource()
+        .store()
+        .update(__KEY__, {
+          fecha: date,
+          cumple: 'N',
+          hora,
+        });
     }
   }
 }
@@ -214,7 +252,9 @@ export class ControlesEnProcesoComponent implements OnInit {
     DxDropDownBoxModule,
     DxToolbarModule,
     DxTextBoxModule,
-    DxDropDownButtonModule
+    DxDropDownButtonModule,
+    DxNumberBoxModule,
+    AlertModule,
   ],
   exports: [ControlesEnProcesoComponent],
 })

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DxButtonModule } from 'devextreme-angular';
 import { OperacionProcesoModule } from 'src/app/components/activesoft/operacion-proceso/operacion-proceso.component';
 import { OrderInfoAreaModule } from 'src/app/components/activesoft/order-info-area/order-info-area.component';
+import { TituloPaginaModule } from 'src/app/components/activesoft/titulo-pagina/titulo-pagina.component';
 
 @Component({
   selector: 'app-operacion-proceso-page',
@@ -15,13 +16,16 @@ export class OperacionProcesoPageComponent implements OnInit {
   orden: { idCompro: string; numero: number };
   idCompro: string;
   numero: number;
+  titulo: string = 'Ruta de producción';
 
   constructor(private router: Router, private activedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.activedRoute.queryParams.subscribe((params) => {
       this.operacion = params['operacion'];
-      console.log(this.operacion);
+      this.numero = params['numord'];
+      this.idCompro = params['compro'];
+      this.planta = params['planta']
     });
   }
 
@@ -38,15 +42,24 @@ export class OperacionProcesoPageComponent implements OnInit {
   }
 
   handleOnValueChangedComOrd(valueChanged: any) {
-    if(!valueChanged){
+    if (!valueChanged) {
       this.orden = null;
     }
+  }
+
+  handleVolver() {
+    this.router.navigate(['ruta-prod'])
   }
 }
 
 @NgModule({
   declarations: [OperacionProcesoPageComponent],
-  imports: [OperacionProcesoModule, DxButtonModule, OrderInfoAreaModule],
+  imports: [
+    OperacionProcesoModule,
+    DxButtonModule,
+    OrderInfoAreaModule,
+    TituloPaginaModule,
+  ],
   providers: [],
   exports: [OperacionProcesoPageComponent],
 })

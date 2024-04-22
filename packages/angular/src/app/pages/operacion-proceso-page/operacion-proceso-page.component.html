@@ -3,6 +3,10 @@
   <div class="item">
     <app-order-info-area 
       [editable]="true" 
+      [operacion]="operacion"
+      [compro]="idCompro"
+      [numOrd]="numero"
+      [idPlanta]="planta"
       [enableOperacion]="false"
       (onSelectionChanged)="handleOnSelectionChanged($event)"
       (onSelectionChangedComOrd)="handleOnSelectionChangedComOrd($event)"

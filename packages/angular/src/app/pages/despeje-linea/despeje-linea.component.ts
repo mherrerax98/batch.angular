@@ -26,18 +26,21 @@ export class DespejeLineaComponent implements OnInit {
   idPlanta: any;
   enableOp: boolean = true;
   titulo: string = 'Despeje inicial';
+  desde: string;
 
   constructor(private router: Router, private activateRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.activateRoute.queryParams.subscribe((params) => {
       // Aquí puedes acceder a los valores de los parámetros
+      console.log(params);
       const editable = params['editable'];
       const numOrd = params['numord'];
       const idCompro = params['compro'];
       const planta = params['planta'];
       const operacion = params['operacion'];
       const enableOp = params['op'];
+      this.desde = params['desde']
       if (editable == 'n') {
         this.editable = false;
         this.numOrd = numOrd;
@@ -63,7 +66,7 @@ export class DespejeLineaComponent implements OnInit {
   }
 
   handleOnClickVolver() {
-    this.router.navigate(['portada'], {
+    this.router.navigate([this.desde], {
       queryParams: {
         editable: 'n',
         planta: this.idPlanta,

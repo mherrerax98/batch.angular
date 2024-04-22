@@ -66,6 +66,7 @@ export class OrderInfoAreaComponent implements OnInit, OnChanges {
     this.editable = false;
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     const { compro, idPlanta, numOrd } = changes;
     if (compro && idPlanta && numOrd) {
       if (compro.currentValue && idPlanta.currentValue && numOrd.currentValue) {

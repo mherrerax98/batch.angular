@@ -155,6 +155,7 @@ export class BatchRecordEtapasComponent implements OnInit {
         planta: this.idPlanta,
         numord: this.numOrd,
         compro: this.idCompro,
+        desde: 'portada'
       },
     });
   }
