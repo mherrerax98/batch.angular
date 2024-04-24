@@ -20,14 +20,6 @@ export const navigation = [
         path: '/cover-page'
       },
       {
-        text: 'Despeje Inicial',
-        path: '/despeje-linea',
-      },
-      {
-        text: 'Despeje Final',
-        path: '/despeje-final',
-      },
-      {
         text: 'Impresion de Rotulo',
         path: '/impresion-rotulo',
       },
