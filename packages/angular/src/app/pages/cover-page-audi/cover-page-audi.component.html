@@ -1,0 +1,125 @@
+<div class="view-wrapper">
+  <app-titulo-pagina titulo="Portada" [visibledButton]="false"></app-titulo-pagina>
+  <div class="order-selection">
+    <div class="container">
+      <div class="row">
+        <div class="item">
+          <dx-drop-down-box
+            [(value)]="gridBoxValue"
+            valueExpr="id"
+            [items]="plantas"
+            [placeholder]="placeholderPlanta"
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExpr"
+            [showClearButton]="true"
+            width="280"
+            label="Planta"
+            [(opened)]="isPlantaGridOpened"
+            (onOptionChanged)="handleOptionChangedPlanta($event)"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="plantas"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumns"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValue"
+                keyExpr="id"
+                [columnAutoWidth]="true"
+                columnResizingMode="widget"
+                (onSelectionChanged)="handlePlantaSeleccionada($event)"
+                #plantasDataGrid
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+        <div class="item">
+          <dx-drop-down-box
+            [(value)]="gridBoxValueComOrd"
+            valueExpr="numero"
+            [items]="orders"
+            [placeholder]="placeholderOrden"
+            [inputAttr]="{ 'aria-label': 'Owner' }"
+            [displayExpr]="displayExprComOrd"
+            [showClearButton]="true"
+            width="280"
+            label="Orden"
+            [(opened)]="isComOrdGridOpened"
+            (onOptionChanged)="handleOptionChangedComOrd($event)"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid
+                [dataSource]="orders"
+                [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [columns]="gridColumnsComOrd"
+                height="100%"
+                [(selectedRowKeys)]="gridBoxValueComOrd"
+                keyExpr="numero"
+                [columnAutoWidth]="true"
+                columnResizingMode="widget"
+                (onSelectionChanged)="handleOnSelectionChangedComOrd($event)"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="order-list">
+    <div class="container">
+      <div class="row">
+        <div class="item">
+          <dx-data-grid [dataSource]="batchSource" [showBorders]="true">
+            <dxi-column dataField="documento"></dxi-column>
+            <dxi-column dataField="area"> </dxi-column>
+            <dxi-column
+              dataField="estado"
+              cellTemplate="estadoTemplate"
+              width="100" alignment="center"
+            ></dxi-column>
+            <dxi-column dataField="operario" caption="Responsable">
+              <dxi-column caption="Codigo" dataField="operario.id" width="auto"></dxi-column>
+              <dxi-column
+                caption="Nombre"
+                dataField="operario.name"
+              ></dxi-column>
+            </dxi-column>
+            <dxi-column caption="Ir" width="100" alignment="center" cellTemplate="irTemplate">
+            </dxi-column>
+
+            <div *dxTemplate="let estados of 'estadoTemplate'">
+              <div *ngIf="estados.data.estado == 'terminado'">
+                <img src="./assets/icons/check-button.png" alt="terminado" />
+              </div>
+              <div *ngIf="estados.data.estado == 'en proceso'">
+                <img src="./assets/icons/circle-yellow.png" alt="pendiente" />
+              </div>
+              <div *ngIf="estados.data.estado == 'pendiente'">
+                <img src="./assets/icons/minus-red.png" alt="en proceso" />
+              </div>
+            </div>
+
+            <div *dxTemplate="let action of 'irTemplate'">
+                <dx-button
+                    icon="arrowright"
+                    (onClick)="handleClickIrButton($event, action)"
+              ></dx-button>
+            </div>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

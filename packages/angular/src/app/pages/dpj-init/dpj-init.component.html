@@ -1,0 +1,67 @@
+<div class="wrapper">
+  <app-titulo-pagina titulo="Despeje Inicial" (onClickVolver)="handleNavigateTo()"></app-titulo-pagina>
+  <div class="container">
+    <div class="row">
+      <app-order-info-area
+        [compro]="compro"
+        [idPlanta]="planta"
+        [numOrd]="numero"
+        (onSelectionChangedOperacion)="handleOnSelectionOperacion($event)"
+      ></app-order-info-area>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Realizado Por</div>
+        <div class="field-value">
+          <dx-text-box [disabled]="true" [placeholder]="realizadoPor"></dx-text-box>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Verificado Por</div>
+        <div class="field-value">
+          <dx-text-box [disabled]="true" [placeholder]="verificadoPor"></dx-text-box>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        
+  <dx-data-grid [dataSource]="dataSource" [showBorders]="true">
+    <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
+
+    <dxi-column
+      dataField="descripcion"
+      [allowEditing]="false"
+      [width]="'70%'"
+      caption="Descripción"
+    ></dxi-column>
+    <dxi-column
+      dataField="valor"
+      [allowEditing]="true"
+      [width]="'15%'"
+      caption="Valor"
+    >
+    </dxi-column>
+    <dxi-column
+      dataField="resultado"
+      cellTemplate="resultadoTemplate"
+      [allowEditing]="false"
+      [width]="'15%'"
+      caption="Resultado"
+    ></dxi-column>
+
+    <div *dxTemplate="let dt of 'resultadoTemplate'">
+      <div *ngIf="dt.data.valor == dt.data.valorEsperado; else noCumple">
+        <i class="dx-icon-check"></i>
+      </div>
+      <ng-template #noCumple>
+        <i class="dx-icon-close"></i>
+      </ng-template>
+    </div>
+  </dx-data-grid>
+    </div>
+  </div>
+</div>

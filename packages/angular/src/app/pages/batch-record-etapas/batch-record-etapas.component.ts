@@ -87,15 +87,15 @@ export class BatchRecordEtapasComponent implements OnInit {
   operarios: Operario[];
 
   constructor(
-      private router: Router, 
-      private activateRoute: ActivatedRoute,
-      private operarioService: OperarioService
-    ) {
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private operarioService: OperarioService
+  ) {
     this.editable = true;
   }
 
   ngOnInit(): void {
-    this.operarioService.getOperarios().subscribe(operarios => {
+    this.operarioService.getOperarios().subscribe((operarios) => {
       this.operarios = operarios;
     });
 
@@ -111,6 +111,9 @@ export class BatchRecordEtapasComponent implements OnInit {
         this.idCompro = idCompro;
         this.idPlanta = planta;
       }
+      this.numOrd = numOrd;
+        this.idCompro = idCompro;
+        this.idPlanta = planta;
     });
   }
 
@@ -124,10 +127,10 @@ export class BatchRecordEtapasComponent implements OnInit {
           goTo = 'orden';
           break;
         case 1:
-          goTo = 'despeje-linea';
+          goTo = 'despeje-linea-inicial';
           break;
         case 2:
-          goTo = goTo = 'despeje-final';
+          goTo = 'despeje-final';
           break;
         case 3:
           goTo = 'impresion-rotulo';
@@ -155,13 +158,21 @@ export class BatchRecordEtapasComponent implements OnInit {
         planta: this.idPlanta,
         numord: this.numOrd,
         compro: this.idCompro,
-        desde: 'portada'
+        desde: 'portada',
       },
     });
   }
 
   handleAceptarButton(): void {
     this.router.navigate(['order-list']);
+  }
+
+  handleSelectionChandeg(event: string) {
+    this.idPlanta = event;
+  }
+  handleSelectionChangedComOrd(event: { idCompro: string; numero: number }) {
+    this.idCompro = event.idCompro;
+    this.numOrd = event.numero;
   }
 }
 

@@ -9,6 +9,7 @@ import { DxButtonModule } from 'devextreme-angular';
 export class TituloPaginaComponent {
   @Input() titulo: string = '';
   @Output() onClickVolver: EventEmitter<void> = new EventEmitter<void>();
+  @Input() visibledButton: boolean = true;
   constructor(){}
 
   handleOnClick() {

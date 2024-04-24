@@ -18,11 +18,9 @@ export class OrderService {
   }
 
   public get(fechaInicial: Date, fechaFinal: Date, idPlanta: string): Observable<Orders[]> {
-    const fecInit = new Date(fechaInicial.getFullYear(), fechaInicial.getMonth(), fechaInicial.getDay());
-    const fecFinal = new Date(fechaFinal.getFullYear(), fechaFinal.getMonth(), fechaFinal.getDay());
     
     return this.httpClient.get<Orders[]>(
-      `${API_URL}/api/Orders/orders/${idPlanta}?fechaInicial=${fecInit.toISOString()}&fechaFinal=${fecFinal.toISOString()}`
+      `${API_URL}/api/Orders/orders/${idPlanta}?fechaInicial=${fechaInicial.toISOString()}&fechaFinal=${fechaFinal.toISOString()}`
     );
   }
 }

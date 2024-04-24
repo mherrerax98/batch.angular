@@ -1,10 +1,16 @@
 <div class="wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="titulo">{{titulo}}</div>
-            <div class="accion">
-                <dx-button text="" icon="arrowleft" (onClick)="handleOnClick()" stylingMode="text"></dx-button>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="titulo">{{ titulo }}</div>
+      <div class="accion">
+        <dx-button
+          text=""
+          icon="arrowleft"
+          (onClick)="handleOnClick()"
+          stylingMode="text"
+          [visible]="visibledButton"
+        ></dx-button>
+      </div>
     </div>
+  </div>
 </div>

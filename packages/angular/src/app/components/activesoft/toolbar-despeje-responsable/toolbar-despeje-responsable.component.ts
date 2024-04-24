@@ -4,6 +4,9 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import {
   DxButtonModule,
@@ -16,6 +19,7 @@ import {
 import { SelectionChangedEvent } from 'devextreme/ui/data_grid';
 import { ValueChangedEvent } from 'devextreme/ui/drop_down_box';
 import { OperarioService } from 'src/app/services/operario.service';
+import { Inspeccion } from 'src/app/types/inspeccion';
 import { Operario } from 'src/app/types/operario';
 
 @Component({

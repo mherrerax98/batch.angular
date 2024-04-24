@@ -38,6 +38,10 @@ import { OperacionProcesoComponent } from './components/activesoft/operacion-pro
 import { DefinicionDespejeLineaComponent } from './pages/definicion-despeje-linea/definicion-despeje-linea.component';
 import { OrdenProduccionComponent } from './pages/orden-produccion/orden-produccion.component';
 import { InstructivoFabricacionComponent } from './pages/instructivo-fabricacion/instructivo-fabricacion.component';
+import { DespejeLineaInicialComponent } from './components/activesoft/despeje-linea-inicial/despeje-linea-inicial.component';
+import { DpjInitComponent } from './pages/dpj-init/dpj-init.component';
+import { CoverPageAudiComponent } from './pages/cover-page-audi/cover-page-audi.component';
+import { DpjFinalComponent } from './pages/dpj-final/dpj-final.component';
 
 
 const authRoutes: Routes = [
@@ -91,12 +95,24 @@ const routes: Routes = [
         component: BatchRecordEtapasComponent
       },
       {
+        path: 'cover-page',
+        component: CoverPageAudiComponent
+      },
+      {
         path: 'despeje-linea',
         component: DespejeLineaComponent
       },
       {
         path: 'despeje-final',
         component: DespejeLineaFinalComponent
+      },
+      {
+        path: 'despeje-linea-inicial',
+        component: DpjInitComponent
+      },
+      {
+        path: 'despeje-linea-final',
+        component: DpjFinalComponent
       },
       {
         path: 'impresion-rotulo',

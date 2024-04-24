@@ -17,7 +17,7 @@ export const navigation = [
     items: [
       {
         text: 'Portada',
-        path: '/portada'
+        path: '/cover-page'
       },
       {
         text: 'Despeje Inicial',

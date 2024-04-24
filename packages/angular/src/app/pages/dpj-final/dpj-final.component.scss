@@ -1,0 +1,42 @@
+.wrapper {
+    padding: 16px;
+    overflow-y: auto;
+    height: 100%;
+  
+    .container {
+      margin: 18px;
+  
+      .row {
+        background-color: rgb(255, 255, 255);
+        padding: 10px 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04);
+        .field {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin: 12px 0px;
+          .field-label {
+            margin-right: 4px;
+            width: 20%;
+          }
+          .field-value {
+            width: 80%;
+          }
+        }
+      }
+    }
+  
+    ::ng-deep .dx-datagrid {
+      .dx-icon-check {
+        color: rgb(0, 255, 0);
+      }
+  
+      .dx-icon-close {
+          color: red;
+        }
+    }
+  
+  
+  }
+  
