@@ -36,6 +36,7 @@ export class DespejeLineaInicialComponent implements OnInit {
   @Input() numOrd: number;
   @Input() enableOP: boolean;
   @Input() operacion?: string | null;
+  @Input() operacionId: string;
 
   valor: string = 'SI';
   plantaDataSource = ['Principal'];
@@ -55,6 +56,7 @@ export class DespejeLineaInicialComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItems();
+    console.log(this.operacionId)
   }
 
   async handleSaveRecord() {
@@ -78,6 +80,7 @@ export class DespejeLineaInicialComponent implements OnInit {
   }
 
   private getItems() {
+    console.log(this.idCompro, '---', this.numOrd, '---', this.operacion)
     this.despejeLineaService
       .getDespejeLinea(TIPO_DESPEJE)
       .subscribe((value) => {
@@ -113,11 +116,12 @@ export class DespejeLineaInicialComponent implements OnInit {
     fecReg: Date,
     fecMod: Date
   ) {
+    console.log(this.idCompro, '---', this.numOrd)
     return {
       idCompro: this.idCompro,
       numero: this.numOrd,
       idProDespejeLinea: idDespeje,
-      idOperacion: this.idOperacion,
+      idOperacion: this.operacionId,
       idRealizadoPor: this.realizadoPor,
       idVerificadoPor: this.verificadoPor,
       valor: String(valor),
@@ -128,6 +132,7 @@ export class DespejeLineaInicialComponent implements OnInit {
   }
 
   private insertarNumeroOrde(idItem: number, numOrden: number, now) {
+    console.log(idItem, '--', numOrden, '--', now)
     this.proDespejeOrdenService
       .createProDespejeOrden(
         this.insertarDespejeOrden(idItem, numOrden, now, now)
@@ -138,26 +143,25 @@ export class DespejeLineaInicialComponent implements OnInit {
 
   private insertarItems(now: Date) {
     this.items.forEach((item) => {
+      console.log(item);
       this.proDespejeOrdenService
         .createProDespejeOrden(
           this.insertarDespejeOrden(item.id, item.valorDefecto, now, now)
         )
-        .subscribe((value) => {});
+        .subscribe((value) => {
+          console.log(value)
+        });
     });
   }
 
   private validarCampos(): boolean {
     const tieneRealizador = !!this.realizadoPor;
     const tieneVerificador = !!this.verificadoPor;
-    const tieneOrden = !!this.numOrdAnt;
-    const tieneOperacion = !!this.idOperacion;
     const itemsVacios = this.items.some(value => !!value.valorDefecto === false);
 
     return (
       tieneRealizador &&
       tieneVerificador &&
-      tieneOrden &&
-      tieneOperacion &&
       !itemsVacios
     );
   }

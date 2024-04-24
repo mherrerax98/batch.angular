@@ -27,6 +27,7 @@ export class DespejeLineaComponent implements OnInit {
   enableOp: boolean = true;
   titulo: string = 'Despeje inicial';
   desde: string;
+  operacionId: string;
 
   constructor(private router: Router, private activateRoute: ActivatedRoute) {}
 
@@ -40,14 +41,17 @@ export class DespejeLineaComponent implements OnInit {
       const planta = params['planta'];
       const operacion = params['operacion'];
       const enableOp = params['op'];
+      const operacionId = params['operacionId']
+      console.log(numOrd, '--', idCompro, '--', planta);
       this.desde = params['desde']
       if (editable == 'n') {
         this.editable = false;
         this.numOrd = numOrd;
         this.idCompro = idCompro;
         this.idPlanta = planta;
+        this.operacion = operacion;
+        this.operacionId = operacionId;
       }
-      this.operacion = operacion;
     });
   }
 

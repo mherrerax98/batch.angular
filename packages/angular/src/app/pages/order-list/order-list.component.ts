@@ -16,7 +16,7 @@ import {
   RowDblClickEvent,
   SelectionChangedEvent,
 } from 'devextreme/ui/data_grid';
-import { ChangeEvent, ValueChangedEvent } from 'devextreme/ui/date_box';
+import { ChangeEvent, OptionChangedEvent, ValueChangedEvent } from 'devextreme/ui/date_box';
 import { FormTextboxModule } from 'src/app/components';
 import { PlantaDropDownBoxModule } from 'src/app/components/activesoft/planta-drop-down-box/planta-drop-down-box.component';
 import { TextConColorModule } from 'src/app/components/activesoft/text-con-color/text-con-color.component';
@@ -106,13 +106,24 @@ export class OrderListComponent implements OnInit {
 
   handleValueChangedFechaFinal(event: ValueChangedEvent) {
     const { value } = event;
-    this.fechaFinal = new Date(value);
+    this.fechaFinal = new Date(value)
+    console.log(this.fechaFinal.toISOString())
   }
 
 
   handleOnSelectionChanged(planta: string) {
-    this.idPlanta = planta;
+    console.log(this.fechaInicial, '---', this.fechaFinal);
+    if(planta){
+      this.idPlanta = planta;
+    }else {
+      this.orders = [];
+    }
   }
+
+  
+handleOptionChangedFI(event: OptionChangedEvent) {
+  console.log(event);
+}
 }
 
 @NgModule({

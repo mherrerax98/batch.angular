@@ -15,7 +15,10 @@
       <dxo-load-panel [showPane]="false"></dxo-load-panel>
       <dxo-scrolling mode="virtual"></dxo-scrolling>
       <dxo-sorting mode="multiple"></dxo-sorting>
-      <dxo-header-filter [visible]="true" [searchMode]="'contains'"></dxo-header-filter>
+      <dxo-header-filter
+        [visible]="true"
+        [searchMode]="'contains'"
+      ></dxo-header-filter>
       <dxo-column-chooser
         [enabled]="true"
         title="Ocultar Columna"
@@ -61,7 +64,7 @@
           <div class="fields">
             <div class="field-label">Planta</div>
             <div class="field-value">
-              <app-planta-drop-down-box 
+              <app-planta-drop-down-box
                 (onSelectionChanged)="handleOnSelectionChanged($event)"
               ></app-planta-drop-down-box>
             </div>

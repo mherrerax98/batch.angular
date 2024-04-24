@@ -47,7 +47,10 @@ export class OrderInfoAreaComponent implements OnInit, OnChanges {
     any | null
   >();
 
-  @Output() onSelectionChangedOperacion: EventEmitter<Operacion> = new EventEmitter<Operacion>();
+  @Output() onSelectionChangedOperacion: EventEmitter<Operacion> =
+    new EventEmitter<Operacion>();
+
+  @Output() onOptionComOrdChanged: EventEmitter<any | null> = new EventEmitter<any | null>();
 
   operaciones: Operacion[] = [];
   plantas: Planta[];
@@ -126,13 +129,19 @@ export class OrderInfoAreaComponent implements OnInit, OnChanges {
   }
 
   handleOnValueChangedComOrd(valueChanged: any) {
-    if(!valueChanged) this.operaciones = [];
+    if (!valueChanged) this.operaciones = [];
     this.onValueChangedComOrd.emit(valueChanged);
   }
 
-  handleOnSelectionChangedOperacion(selectionChangedEvent: SelectionChangedEvent) {
-    const { item } = selectionChangedEvent
+  handleOnSelectionChangedOperacion(
+    selectionChangedEvent: SelectionChangedEvent
+  ) {
+    const { item } = selectionChangedEvent;
     this.onSelectionChangedOperacion.emit(item);
+  }
+
+  handleOptionComOrdChanged(event: any) {
+    this.onOptionComOrdChanged.emit(event);
   }
 }
 

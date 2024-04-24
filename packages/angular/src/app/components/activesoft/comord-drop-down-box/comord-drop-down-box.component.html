@@ -9,6 +9,7 @@
   width="280"
   [disabled]="disbled"
   (onValueChanged)="handleOnValueChanged($event)"
+  (onOptionChanged)="handleOnOptionChanged($event)"
 >
   <div *dxTemplate="let data of 'content'">
     <dx-data-grid

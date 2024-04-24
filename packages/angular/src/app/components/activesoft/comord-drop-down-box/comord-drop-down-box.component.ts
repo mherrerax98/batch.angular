@@ -15,7 +15,10 @@ import {
   DxDropDownBoxModule,
 } from 'devextreme-angular';
 import { SelectionChangedEvent } from 'devextreme/ui/data_grid';
-import { ValueChangedEvent } from 'devextreme/ui/drop_down_box';
+import {
+  OptionChangedEvent,
+  ValueChangedEvent,
+} from 'devextreme/ui/drop_down_box';
 import { OrderService } from 'src/app/services/order-service';
 import { Orders } from 'src/app/types/orders';
 
@@ -31,7 +34,10 @@ export class ComordDropDownBoxComponent implements OnChanges {
   @Input() placeholder: string = 'Selecione una Orden';
   @Input() disbled: boolean;
   @Output() onSelectionChanged: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onValueChanged: EventEmitter<any | null> = new EventEmitter<any | null>();
+  @Output() onValueChanged: EventEmitter<any | null> = new EventEmitter<
+    any | null
+  >();
+  @Output() onOptionChanged: EventEmitter<any | null> = new EventEmitter<any | null>(); 
 
   orders: Orders[] = [];
   gridBoxValue = [];
@@ -67,6 +73,10 @@ export class ComordDropDownBoxComponent implements OnChanges {
 
   handleOnValueChanged(valueChange: ValueChangedEvent) {
     this.onValueChanged.emit(valueChange.value);
+  }
+
+  handleOnOptionChanged(event: OptionChangedEvent) {
+    this.onOptionChanged.emit(event.value);
   }
 }
 

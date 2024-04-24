@@ -11,13 +11,149 @@
       (onSelectionChanged)="handleOnSelectionChanged($event)"
       (onSelectionChangedComOrd)="handleOnSelectionChangedComOrd($event)"
       (onValueChangedComOrd)="handleOnValueChangedComOrd($event)"
+      (onOptionComOrdChanged)="handleOnOptionComOrdChanged($event)"
       ></app-order-info-area>
   </div>
   <div class="item">
-    <app-operacion-proceso 
-      [planta]="planta" 
-      [orden]="orden"
-    ></app-operacion-proceso>
+    <div class="op-wrapper">
+      <dx-data-grid
+        [dataSource]="dataSource"
+        [showBorders]="true"
+        [showColumnLines]="true"
+        [allowColumnReordering]="false"
+        width="100%"
+      >
+        <dxi-column
+          dataField="operacion"
+          caption="Operacion/Ruta"
+        ></dxi-column>
+        <dxi-column caption="Despeje Linea Inicial">
+          <dxi-column
+            caption="Accion"
+            cellTemplate="actionTemplate"
+          ></dxi-column>
+          <dxi-column
+            dataField="dli"
+            caption="Estado"
+            cellTemplate="stateTemplateDli"
+          ></dxi-column>
+        </dxi-column>
+        <dxi-column caption="Despeje de Linea Final">
+          <dxi-column
+            caption="Accion"
+            cellTemplate="actionTemplate"
+          ></dxi-column>
+          <dxi-column
+            caption="Estado"
+            dataField="dlf"
+            cellTemplate="stateTemplateDlf"
+          ></dxi-column>
+        </dxi-column>
+        <dxi-column caption="Transacción de Recursos">
+          <dxi-column
+            caption="Accion"
+            cellTemplate="actionTemplate"
+          ></dxi-column>
+          <dxi-column
+            caption="Estado"
+            dataField="tRec"
+            cellTemplate="stateTemplateTRec"
+          ></dxi-column>
+        </dxi-column>
+        <dxi-column caption="Control de Proceso">
+          <dxi-column
+            caption="Accion"
+            cellTemplate="actionTemplate"
+          ></dxi-column>
+          <dxi-column
+            caption="Estado"
+            dataField="ctlPrcs"
+            cellTemplate="stateTemplateCtlPrcs"
+          ></dxi-column>
+        </dxi-column>
+    
+        <div class="act" *dxTemplate="let action of 'actionTemplate'">
+          <dx-button
+            class="ac-btn"
+            icon="more"
+            (onClick)="handleOnClick($event, action)"
+          ></dx-button>
+        </div>
+    
+        <div class="act" *dxTemplate="let states of 'stateTemplateDli'">
+          <div *ngIf="states.data.dli == 'pendiente'">
+            <img src="./assets/icons/minus-red.png" alt="pendiente" />
+          </div>
+          <div *ngIf="states.data.dli == 'en proceso'">
+            <img
+              src="./assets/icons/circle-yellow.png"
+              alt="en proceso"
+            />
+          </div>
+          <div *ngIf="states.data.dli == 'terminado'">
+            <img
+              src="./assets/icons/check-button.png"
+              alt="terminado"
+            />
+          </div>
+        </div>
+    
+        <div class="act" *dxTemplate="let states of 'stateTemplateDlf'">
+          <div *ngIf="states.data.dlf == 'pendiente'">
+            <img src="./assets/icons/minus-red.png" alt="pendiente" />
+          </div>
+          <div *ngIf="states.data.dlf == 'en proceso'">
+            <img
+              src="./assets/icons/circle-yellow.png"
+              alt="en proceso"
+            />
+          </div>
+          <div *ngIf="states.data.dlf == 'terminado'">
+            <img
+              src="./assets/icons/check-button.png"
+              alt="terminado"
+            />
+          </div>
+        </div>
+    
+        <div class="act" *dxTemplate="let states of 'stateTemplateTRec'">
+          <div *ngIf="states.data.tRec == 'pendiente'">
+            <img src="./assets/icons/minus-red.png" alt="pendiente" />
+          </div>
+          <div *ngIf="states.data.tRec == 'en proceso'">
+            <img
+              src="./assets/icons/circle-yellow.png"
+              alt="en proceso"
+            />
+          </div>
+          <div *ngIf="states.data.tRec == 'terminado'">
+            <img
+              src="./assets/icons/check-button.png"
+              alt="terminado"
+            />
+          </div>
+        </div>
+    
+        <div class="act" *dxTemplate="let states of 'stateTemplateCtlPrcs'">
+          <div *ngIf="states.data.ctlPrcs == 'pendiente'">
+            <img src="./assets/icons/minus-red.png" alt="pendiente" />
+          </div>
+          <div *ngIf="states.data.ctlPrcs == 'en proceso'">
+            <img
+              src="./assets/icons/circle-yellow.png"
+              alt="en proceso"
+            />
+          </div>
+          <div *ngIf="states.data.ctlPrcs == 'terminado'">
+            <img
+              src="./assets/icons/check-button.png"
+              alt="terminado"
+            />
+          </div>
+        </div>
+      </dx-data-grid>
+    </div>
+    
   </div>
   <div class="item">
     <dx-button

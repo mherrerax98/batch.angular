@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DxButtonModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { ClickEvent } from 'devextreme/ui/button';
 import { OperacionProcesoModule } from 'src/app/components/activesoft/operacion-proceso/operacion-proceso.component';
 import { OrderInfoAreaModule } from 'src/app/components/activesoft/order-info-area/order-info-area.component';
 import { TituloPaginaModule } from 'src/app/components/activesoft/titulo-pagina/titulo-pagina.component';
+import { OperacionService } from 'src/app/services/operacion.service';
 
 @Component({
   selector: 'app-operacion-proceso-page',
@@ -17,15 +20,21 @@ export class OperacionProcesoPageComponent implements OnInit {
   idCompro: string;
   numero: number;
   titulo: string = 'Ruta de producción';
+  dataSource: any[] = [];
+  operacionId: any;
 
-  constructor(private router: Router, private activedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activedRoute: ActivatedRoute,
+    private operacionService: OperacionService
+  ) {}
 
   ngOnInit(): void {
     this.activedRoute.queryParams.subscribe((params) => {
       this.operacion = params['operacion'];
       this.numero = params['numord'];
       this.idCompro = params['compro'];
-      this.planta = params['planta']
+      this.planta = params['planta'];
     });
   }
 
@@ -38,7 +47,11 @@ export class OperacionProcesoPageComponent implements OnInit {
   }
 
   handleOnSelectionChangedComOrd(orden: { idCompro: string; numero: number }) {
-    this.orden = orden;
+    if (orden) {
+      this.orden = orden;
+      console.log(orden);
+      this.getOperacines();
+    }
   }
 
   handleOnValueChangedComOrd(valueChanged: any) {
@@ -48,7 +61,65 @@ export class OperacionProcesoPageComponent implements OnInit {
   }
 
   handleVolver() {
-    this.router.navigate(['ruta-prod'])
+    this.router.navigate(['ruta-prod']);
+  }
+
+  handleOnClick(event: ClickEvent, action: any): void {
+    const {
+      columnIndex,
+      rowIndex,
+      data: { operacion, operacionId },
+    } = action;
+    this.operacion = operacion;
+    this.operacionId = operacionId;
+    const navigateTo = this.navigateTo(columnIndex, rowIndex);
+    this.router.navigate([navigateTo], {
+      queryParams: {
+        editable: 'n',
+        planta: this.planta,
+        numord: this.orden.numero,
+        compro: this.orden.idCompro,
+        operacion: this.operacion,
+        operacionId: this.operacionId,
+        desde: 'ruta-prod',
+      },
+    });
+  }
+
+  getOperacines() {
+    this.operacionService
+      .getOperacionRuta(this.orden.idCompro, this.planta, this.orden.numero)
+      .subscribe((operaciones) => {
+        operaciones.forEach((operacion) => {
+          console.log(operaciones);
+          this.dataSource.push({
+            operacion: operacion.nombre,
+            operacionId: operacion.idOperacion,
+            dli: 'terminado',
+            dlf: 'en proceso',
+            tRec: 'pendiente',
+            ctlPrcs: 'en proceso',
+          });
+        });
+      });
+  }
+
+  navigateTo(columnIndex, rowIndex) {
+    if (columnIndex == 1) return 'despeje-linea';
+    else if (columnIndex == 3) return 'despeje-final';
+    else if (columnIndex == 5) return 'asignacion-recursos-page';
+    else if (columnIndex == 7) {
+      if (rowIndex == 0) return 'controles-en-proceso';
+      else if (rowIndex == 1) return 'controles-en-procso-acondicionamiento';
+    }
+    return '';
+  }
+
+  handleOnOptionComOrdChanged(event: any) {
+    console.log(event);
+    if(event == true){
+      this.dataSource = [];
+    }
   }
 }
 
@@ -59,8 +130,10 @@ export class OperacionProcesoPageComponent implements OnInit {
     DxButtonModule,
     OrderInfoAreaModule,
     TituloPaginaModule,
+    DxDataGridModule,
+    CommonModule,
   ],
-  providers: [],
+  providers: [OperacionService],
   exports: [OperacionProcesoPageComponent],
 })
 export class OperacionProcesoPageModule {}

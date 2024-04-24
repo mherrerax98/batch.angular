@@ -18,6 +18,8 @@ export class DespejeLineaFinalComponent implements OnInit {
   idCompro: any;
   idPlanta: any;
   titulo: string = 'Despeje Final';
+  operacionId: any;
+  desde: any;
 
   constructor(private router: Router, private activateRoute: ActivatedRoute) {
     this.editable = true;
@@ -30,14 +32,17 @@ export class DespejeLineaFinalComponent implements OnInit {
       const idCompro = params['compro'];
       const planta = params['planta'];
       const operacion = params['operacion'];
+      const operacionId = params['operacionId'];
+      this.desde = params['desde'];
       const enableOp = params['op'];
       if (editable == 'n') {
         this.editable = false;
         this.numOrd = numOrd;
         this.idCompro = idCompro;
         this.idPlanta = planta;
+        this.operacion = operacion;
+        this.operacionId = operacionId;
       }
-      this.operacion = operacion;
     });
   }
 
@@ -46,7 +51,7 @@ export class DespejeLineaFinalComponent implements OnInit {
   }
 
   handleOnClickVolver() {
-    this.router.navigate(['portada'], {
+    this.router.navigate([this.desde], {
       queryParams: {
         editable: 'n',
         planta: this.idPlanta,

@@ -30,6 +30,7 @@ export class DespejeFinalLineaComponent implements OnInit {
   @Input() idCompro: string;
   @Input() numOrd: number;
   @Input() idPlanta: string;
+  @Input() operacionId: string;
 
   plantaDataSource = ['Principal'];
   items: DespejeLinea[];
@@ -48,6 +49,7 @@ export class DespejeFinalLineaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItems();
+    console.log(this.operacionId);
   }
 
   handleAceptarButton() {
@@ -99,10 +101,9 @@ export class DespejeFinalLineaComponent implements OnInit {
   private validarCampos(): boolean {
     const tieneRealizador = !!this.realizadoPor;
     const tieneVerificador = !!this.verificadoPor;
-    const tieneIdOperacion = !!this.idOperacion;
     const itemsVacios = this.datasource.some(value => !!value.valorDefecto === false);
 
-    return tieneRealizador && tieneVerificador && tieneIdOperacion && !itemsVacios;
+    return tieneRealizador && tieneVerificador  && !itemsVacios;
   }
 
   private insertarDespeje(idItem: number, valor: string, now: Date) {
@@ -110,7 +111,7 @@ export class DespejeFinalLineaComponent implements OnInit {
       idCompro: this.idCompro,
       numero: this.numOrd,
       idProDespejeLinea: idItem,
-      idOperacion: this.idOperacion,
+      idOperacion: this.operacionId,
       idRealizadoPor: this.realizadoPor,
       idVerificadoPor: this.verificadoPor,
       valor: valor,
