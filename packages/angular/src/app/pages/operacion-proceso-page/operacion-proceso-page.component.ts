@@ -57,6 +57,7 @@ export class OperacionProcesoPageComponent implements OnInit {
   handleOnValueChangedComOrd(valueChanged: any) {
     if (!valueChanged) {
       this.orden = null;
+      this.dataSource = [];
     }
   }
 
@@ -120,6 +121,11 @@ export class OperacionProcesoPageComponent implements OnInit {
     if(event == true){
       this.dataSource = [];
     }
+  }
+
+  
+handleOnValuePlantaChanged(event: any) {
+  if(!event) this.dataSource = [];
   }
 }
 

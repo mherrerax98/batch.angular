@@ -8,6 +8,7 @@
   [showClearButton]="true"
   width="280"
   [disabled]="disabled"
+  (onValueChanged)="handleOnValueChanged($event)"
 >
   <div *dxTemplate="let data of 'content'">
     <dx-data-grid

@@ -32,6 +32,7 @@ export class PlantaDropDownBoxComponent implements OnInit {
   @Output()
   onSelectionChanged: EventEmitter<string | null> =
     new EventEmitter<string | null>();
+  @Output() onValueChanged: EventEmitter<any | null> = new EventEmitter<any | null>();
 
   @Input() 
   placeholder: any = 'Seleccione una planta';
@@ -59,7 +60,7 @@ export class PlantaDropDownBoxComponent implements OnInit {
 
   handleOnValueChanged(event: ValueChangedEvent) {
     const { value } = event;
-      this.onSelectionChanged.emit(value);
+      this.onValueChanged.emit(value);
   }
 }
 

@@ -6,6 +6,7 @@
         <div class="field-value">
           <app-planta-drop-down-box 
             (onSelectionChanged)="handleOnSelectionChanged($event)"
+            (onValueChanged)="handleOnValuePlantaChanged($event)"
             [placeholder]="placeholderPlanta"
             [disabled]="!editable"
             ></app-planta-drop-down-box>
@@ -22,7 +23,6 @@
             [disbled]="!editable"
             (onSelectionChanged)="handleOnSelectionChangedComOrd($event)"
             (onValueChanged)="handleOnValueChangedComOrd($event)"
-            (onOptionChanged)="handleOptionComOrdChanged($event)"
           ></app-comord-drop-down-box>
         </div>
       </div>
